@@ -5,31 +5,42 @@
 # Copyright (C) 2017 Collin Norwood <cnorwood7641@stu.neisd.net>
 
 
-from gi.repository import Gtk, GdkPixbuf, Gdk
-import os, sys
+import gi
+gi.require_version('Gtk', '3.0')
+from gi.repository import Gtk
 
-UI_FILE = "welcome.ui"
+class ButtonWindow(Gtk.Window):
 
+    def __init__(self):
+        Gtk.Window.__init__(self, title="Button Demo")
+        self.set_border_width(10)
 
-class GUI:
-	def __init__(self):
+        hbox = Gtk.Box(spacing=6)
+        self.add(hbox)
 
-		self.builder = Gtk.Builder()
-		self.builder.add_from_file(UI_FILE)
-		self.builder.connect_signals(self)
+        button = Gtk.Button.new_with_label("Click Me")
+        button.connect("clicked", self.on_click_me_clicked)
+        hbox.pack_start(button, True, True, 0)
 
-		window = self.builder.get_object('window')
+        button = Gtk.Button.new_with_mnemonic("_Open")
+        button.connect("clicked", self.on_open_clicked)
+        hbox.pack_start(button, True, True, 0)
 
+        button = Gtk.Button.new_with_mnemonic("_Close")
+        button.connect("clicked", self.on_close_clicked)
+        hbox.pack_start(button, True, True, 0)
 
-		window.show_all()
+    def on_click_me_clicked(self, button):
+        print("\"Click me\" button was clicked")
 
-	def on_window_destroy(self, window):
-		Gtk.main_quit()
+    def on_open_clicked(self, button):
+        print("\"Open\" button was clicked")
 
-def main():
-	app = GUI()
-	Gtk.main()
-		
-if __name__ == "__main__":
-	sys.exit(main())
+    def on_close_clicked(self, button):
+        print("Closing application")
+        Gtk.main_quit()
 
+win = ButtonWindow()
+win.connect("delete-event", Gtk.main_quit)
+win.show_all()
+Gtk.main()
