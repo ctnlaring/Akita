@@ -9,7 +9,8 @@ puts those variables together into a command which it appends to a file
 Ex:
 
 On the partitioning screen you chose to partition /dev/sda1 as ext4. It 
-will set a varible for the partition type and then when you hit next it 
+will set a varible for the partition type and one for the partition 
+you're formatting then when you hit next it 
 will add the command "mkfs.ext4 /dev/sda1" to the install script. 
 Everything is done in python/pygtk so it can be material with Liri's gtk 
 theme/flat-plat
