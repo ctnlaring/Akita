@@ -9,38 +9,120 @@ import gi
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
 
-class ButtonWindow(Gtk.Window):
+class WelcomeWindow(Gtk.Window):
 
-    def __init__(self):
-        Gtk.Window.__init__(self, title="Button Demo")
-        self.set_border_width(10)
+	def __init__(self):
+		Gtk.Window.__init__(self, title="Unnamed thingy")
+		self.set_border_width(10)
 
-        hbox = Gtk.Box(spacing=6)
-        self.add(hbox)
+		box = Gtk.Box(spacing=6)
+		self.add(box)
+		stepsbox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=6)
+		box.add(stepsbox)
 
-        button = Gtk.Button.new_with_label("Click Me")
-        button.connect("clicked", self.on_click_me_clicked)
-        hbox.pack_start(button, True, True, 0)
+		step1label = Gtk.Label("Step 1")
+		stepsbox.add(step1label)
+		step2label = Gtk.Label("Step 2")
+		stepsbox.add(step2label)
+		step3label = Gtk.Label("Step 3")
+		stepsbox.add(step3label)
+		step4label = Gtk.Label("Step 4")
+		stepsbox.add(step4label)
+		step5label = Gtk.Label("Step 5")
+		stepsbox.add(step5label)
 
-        button = Gtk.Button.new_with_mnemonic("_Open")
-        button.connect("clicked", self.on_open_clicked)
-        hbox.pack_start(button, True, True, 0)
+		mainbox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=6)
+		box.add(mainbox)
 
-        button = Gtk.Button.new_with_mnemonic("_Close")
-        button.connect("clicked", self.on_close_clicked)
-        hbox.pack_start(button, True, True, 0)
+		welcomelabel = Gtk.Label("Welcome to this unnamed thingy.")
+		mainbox.add(welcomelabel)
 
-    def on_click_me_clicked(self, button):
-        print("\"Click me\" button was clicked")
+		buttonbox = Gtk.Box(spacing=6)
+		mainbox.add(buttonbox)
 
-    def on_open_clicked(self, button):
-        print("\"Open\" button was clicked")
+		button = Gtk.Button.new_with_label("Exit")
+		button.connect("clicked", self.quitbutton)
+		buttonbox.pack_start(button, True, True, padding=0)
 
-    def on_close_clicked(self, button):
-        print("Closing application")
-        Gtk.main_quit()
+		button = Gtk.Button.new_with_label("Next")
+		button.connect("clicked", self.nextbutton)
+		buttonbox.pack_end(button, True, True, padding=0)
 
-win = ButtonWindow()
+		button = Gtk.Button.new_with_label("Back")
+		button.connect("clicked", self.backbutton)
+		buttonbox.pack_end(button, True, True, padding=0)
+
+
+
+	def nextbutton(self, button):
+		win = SecondWindow()
+		Gtk.Window.resize(win,800,500)
+		win.connect("delete-event", Gtk.main_quit)
+		win.show_all()
+		Gtk.main()
+
+	def backbutton(self, button):
+ 		print("back")
+
+	def quitbutton(self, button):
+		print("exit")
+		Gtk.main_quit()
+
+class SecondWindow(Gtk.Window):
+
+	def __init__(self):
+		Gtk.Window.__init__(self, title="Unnamed thingy")
+		self.set_border_width(10)
+
+		box = Gtk.Box(spacing=6)
+		self.add(box)
+		stepsbox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=6)
+		box.add(stepsbox)
+
+		step1label = Gtk.Label("Step 1")
+		stepsbox.add(step1label)
+		step2label = Gtk.Label("Step 2")
+		stepsbox.add(step2label)
+		step3label = Gtk.Label("Step 3")
+		stepsbox.add(step3label)
+		step4label = Gtk.Label("Step 4")
+		stepsbox.add(step4label)
+		step5label = Gtk.Label("Step 5")
+		stepsbox.add(step5label)
+
+		mainbox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=6)
+		box.add(mainbox)
+
+		welcomelabel = Gtk.Label("Welcome to the second window.")
+		mainbox.add(welcomelabel)
+
+		buttonbox = Gtk.Box(spacing=6)
+		mainbox.add(buttonbox)
+
+		button = Gtk.Button.new_with_label("Exit")
+		button.connect("clicked", self.quitbutton)
+		buttonbox.pack_start(button, True, True, padding=0)
+
+		button = Gtk.Button.new_with_label("Next")
+		button.connect("clicked", self.nextbutton)
+		buttonbox.pack_end(button, True, True, padding=0)
+
+		button = Gtk.Button.new_with_label("Back")
+		button.connect("clicked", self.backbutton)
+		buttonbox.pack_end(button, True, True, padding=0)
+
+	def nextbutton(self, button):
+		print("next")
+
+	def backbutton(self, button):
+		print("back")
+
+	def quitbutton(self, button):
+		print("exit")
+		Gtk.main_quit()
+
+win = WelcomeWindow()
+Gtk.Window.resize(win,800,500)
 win.connect("delete-event", Gtk.main_quit)
 win.show_all()
 Gtk.main()
