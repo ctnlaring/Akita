@@ -1,0 +1,6 @@
+Consider splitting each "screen" into it's own file to make the code 
+cleaner/more hackable. 
+
+Make shit work
+
+A good ui
