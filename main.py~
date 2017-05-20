@@ -60,7 +60,7 @@ class WelcomeWindow(Gtk.Window):
 		buttonbox.pack_end(button, False, False, padding=0)
 
 	def nextbutton(self, button, checked):
-		print(checked())
+		print(checked)
 		f = open("out.sh", "a");
 		f.write(str(checked) + "\n")
 		win = SecondWindow()
