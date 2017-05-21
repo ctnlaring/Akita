@@ -43,33 +43,60 @@ class installer(gtk.Window):
 
 		#Page 1
 		page1 = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
-		welcomelabel = gtk.Label("Welcome to this unnamed thingy. Hopefully this will let you install arch linux at some point.\nAs you chose options and click next on each page it will make a script based on what options you selected.")
+		welcomelabel = gtk.Label("Chose some packages:")
 		page1.add(welcomelabel)
-		testcheck = gtk.CheckButton("Install Firefox?")
-		page1.add(testcheck)
-		radio1 = gtk.RadioButton("radio1")
-		radio2 = gtk.RadioButton(group=radio1, label="radio2")
-		page1.add(radio1)
-		page1.add(radio2)
+		global packages
+		packages = [];
+
+		global firefox
+		firefox = gtk.CheckButton("firefox")
+		page1.add(firefox)
+		packages.append(firefox)
+		
+		global gedit
+		gedit = gtk.CheckButton("gedit")
+		page1.add(gedit)
+		packages.append(gedit)
+		
+		global steam
+		steam = gtk.CheckButton("steam")
+		page1.add(steam)
+		packages.append(steam)
+		
+		global kdenlive
+		kdenlive = gtk.CheckButton("kdenlive")
+		page1.add(kdenlive)
+		packages.append(kdenlive)
+
 
 		#Page 2
 		page2 = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
-		welcomelabel = gtk.Label("hello again")
+		welcomelabel = gtk.Label("Chose a display manager:")
 		page2.add(welcomelabel)
+				
+		global wayland
+		wayland = gtk.RadioButton("wayland")
+		page2.add(wayland)
+		packages.append(wayland)
 		
+		global x11
+		x11 = gtk.RadioButton(group=wayland, label="x11")
+		page2.add(x11)
+		packages.append(x11)
+
+
 		#Page 3
 		page3 = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
-		if testcheck.get_active() == True:
-			print("fire")
 		welcomelabel = gtk.Label("I'm now going to attempt to generate an install script based on the options you selected.\nYou Should review it very, very carefully. It will almost certainly destroy your machine otherwise.")
 		page3.add(welcomelabel)
 		gobutton = gtk.Button("GO!")
+		gobutton.connect("clicked", self.gobutton)
 		page3.pack_end(gobutton, False, False, padding=5)
 
 		#Tabs
-		tab1label = gtk.Label("tab1")
-		tab2label = gtk.Label("tab2")
-		tab3label = gtk.Label("Fin")
+		tab1label = gtk.Label("Extras")
+		tab2label = gtk.Label("Display Manager")
+		tab3label = gtk.Label("Finish")
 		tab4label = gtk.Label("tab4")
 		tab5label = gtk.Label("tab5")
 		mainbook.append_page(page1, tab1label)
@@ -78,9 +105,22 @@ class installer(gtk.Window):
 
 
 	def nextbutton(self, button):
-		#os.system("gnome-terminal -x sh -c 'bash out.sh; exec bash'")
 		mainbook.next_page()
-
+		
+	def gobutton(self, button):
+		f = open("out.sh", "a");
+		
+		for package in packages:
+			if package.get_active() == True:
+				f.write("sudo dnf install " + package.get_label() + "\n")
+			else:
+				f.write("echo 'skipping " + package.get_label() + "'\n")
+			
+		f.write("echo 'Done!'")
+			
+		f.close()
+		os.system("gnome-terminal -x sh -c 'bash out.sh; exec bash'")
+		gtk.main_quit()
 
 	def backbutton(self, button):
 		mainbook.prev_page()
