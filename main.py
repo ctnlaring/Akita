@@ -45,6 +45,12 @@ class installer(gtk.Window):
 		page1 = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
 		welcomelabel = gtk.Label("Welcome to this unnamed thingy. Hopefully this will let you install arch linux at some point. As you chose options and click next on each page it will basically make a script based on what options you selected.")
 		page1.add(welcomelabel)
+		testcheck = gtk.CheckButton("Install Firefox?")
+		page1.add(testcheck)
+		radio1 = gtk.RadioButton("radio1")
+		radio2 = gtk.RadioButton(group=radio1, label="radio2")
+		page1.add(radio1)
+		page1.add(radio2)
 
 		#Page 2
 		page2 = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
@@ -63,11 +69,10 @@ class installer(gtk.Window):
 
 
 	def nextbutton(self, button):
-		print("running")
 		os.system("gnome-terminal -x sh -c 'bash out.sh; exec bash'")
 
 	def backbutton(self, button):
- 		print("back")
+ 		pass
 		
 	def quitbutton(self, button):
 		gtk.main_quit()
