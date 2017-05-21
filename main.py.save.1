@@ -22,11 +22,11 @@ class installer(gtk.Window):
 		global mainbook
 		mainbook = gtk.Notebook()
 		box.pack_start(mainbook, True, True, padding=0)
-		
-		
+
+
 		buttonbox = gtk.Box()
 		box.pack_end(buttonbox, False, False, padding=5)
-		
+
 		button = gtk.Button.new_with_label("Exit")
 		button.connect("clicked", self.quitbutton)
 		buttonbox.pack_start(button, False, False, padding=5)
@@ -42,122 +42,108 @@ class installer(gtk.Window):
 
 
 		#Page 1
-		softwarepage = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
+		page1 = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
 		welcomelabel = gtk.Label("Chose some packages:")
-		softwarepage.add(welcomelabel)
+		page1.add(welcomelabel)
 		global packages
 		packages = [];
 
 		global firefox
 		firefox = gtk.CheckButton("firefox")
-		softwarepage.add(firefox)
+		page1.add(firefox)
 		packages.append(firefox)
-		
+
 		global gedit
 		gedit = gtk.CheckButton("gedit")
-		softwarepage.add(gedit)
+		page1.add(gedit)
 		packages.append(gedit)
-		
+
 		global steam
 		steam = gtk.CheckButton("steam")
-		softwarepage.add(steam)
+		page1.add(steam)
 		packages.append(steam)
-		
+
 		global kdenlive
 		kdenlive = gtk.CheckButton("kdenlive")
-		softwarepage.add(kdenlive)
+		page1.add(kdenlive)
 		packages.append(kdenlive)
 
 
 		#Page 2
-		displaypage = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
+		page2 = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
 		welcomelabel = gtk.Label("Chose a display manager:")
-		displaypage.add(welcomelabel)
-				
+		page2.add(welcomelabel)
+
 		global wayland
 		wayland = gtk.RadioButton("wayland")
-		displaypage.add(wayland)
+		page2.add(wayland)
 		packages.append(wayland)
-		
 		global x11
 		x11 = gtk.RadioButton(group=wayland, label="x11")
-		displaypage.add(x11)
+		page2.add(x11)
 		packages.append(x11)
 
 
 		#Page 3
-		partitionpage = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
-		welcomelabel = gtk.Label("Chose your partition scheme")
-		partitionpage.pack_start(welcomelabel, False, False, padding=5)
-		partbox = gtk.Box()
-		partitionpage.pack_end(partbox, True, True, padding=5)
-		drivebox = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
-		schemebox = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
-		partbox.add(drivebox)
-		partbox.add(schemebox)
-		
-		global drive1
-		drive1 = gtk.RadioButton("/dev/sda")
-		drivebox.add(drive1)
-		
-		global drive2
-		drive2 = gtk.RadioButton(group=drive1, label="/dev/sdb")
-		drivebox.add(drive2)
-		
-		global ext3
-		ext3 = gtk.RadioButton("ext3")
-		schemebox.add(ext3)
-		
-		global ext4
-		ext4 = gtk.RadioButton(group=ext3, label="ext4")
-		schemebox.add(ext4)
-		
-		#Page 4
-		finalpage = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
-		welcomelabel = gtk.Label("I'm now going to attempt to generate an install script based on the options you selected.\nYou Should review it very carefully. It will almost certainly destroy your machine otherwise.")
-		finalpage.add(welcomelabel)
+		page3 = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
+		welcomelabel = gtk.Label("I'm now going to attempt to generate an install script based on the options you selected.\nYou Should review it very, very carefully. It will almost certainly destroy your machine otherwise.")
+		page3.add(welcomelabel)
 		gobutton = gtk.Button("GO!")
 		gobutton.connect("clicked", self.gobutton)
-		finalpage.pack_end(gobutton, False, False, padding=5)
+		page3.pack_end(gobutton, False, False, padding=5)
 
+
+		#Page 4
+		page4 = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
+		welcomelabel = gtk.Label("Hard drive partitioning")
+		page4.add(welcomelabel)
+		partscheme = gtk.label("partition scheme?")
+		page4.add(partscheme)
+
+		global scheme
+		scheme = []
+		global ext4
+		ext4 = gtk.RadioButton(label="ext4")
+		page4.add(ext4)
+		scheme.append(ext4)
+
+		global ext3
+		ext3 = gtk.RadioButton(group=ext4, label="ext3")
+		page4.add(ext3)
+		scheme.append(ext3)
 
 		#Tabs
-		tab1label = gtk.Label("Software")
+		tab1label = gtk.Label("Extras")
 		tab2label = gtk.Label("Display Manager")
-		tab3label = gtk.Label("Disks")
-		tab4label = gtk.Label("Finish")
-		mainbook.append_page(softwarepage, tab1label)
-		mainbook.append_page(displaypage, tab2label)
-		mainbook.append_page(partitionpage, tab3label)
-		mainbook.append_page(finalpage, tab4label)
-
+		tab3label = gtk.Label("Finish")
+		tab4label = gtk.Label("Drives")
+		tab5label = gtk.Label("tab5")
+		mainbook.append_page(page1, tab1label)
+		mainbook.append_page(page2, tab2label)
+		mainbook.append_page(page3, tab3label)
+		mainbook.append_page(page4, tab4label)
 
 	def nextbutton(self, button):
 		mainbook.next_page()
-		
+
 	def gobutton(self, button):
-		out = open("out.sh", "a");
-		
-		if ext3.get_active() == True:
-			out.write("sudo mkfs.ext3 NO NO NO NO NO\n")
-		if ext4.get_active() == True:
-			out.write("sudo mkfs.ext4 NO NO NO NO NO\n")
-		
+		f = open("out.sh", "a");
+
 		for package in packages:
 			if package.get_active() == True:
-				out.write("sudo dnf install " + package.get_label() + "\n")
+				f.write("sudo dnf install " + package.get_label() + "\n")
 			else:
-				out.write("echo 'skipping " + package.get_label() + "'\n")
-			
-		out.write("echo 'Done!'")
-			
-		out.close()
+				f.write("echo 'skipping " + package.get_label() + "'\n")
+
+		f.write("echo 'Done!'")
+
+		f.close()
 		os.system("gnome-terminal -x sh -c 'bash out.sh; exec bash'")
 		gtk.main_quit()
 
 	def backbutton(self, button):
 		mainbook.prev_page()
-		
+
 	def quitbutton(self, button):
 		gtk.main_quit()
 
