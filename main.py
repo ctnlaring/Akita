@@ -4,10 +4,11 @@
 # main.py
 # Copyright (C) 2017 Collin Norwood <cnorwood7641@stu.neisd.net>
 
-
 import gi
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk as gtk
+gi.require_version('Vte', '2.91')
+from gi.repository import Vte as vte
 from subprocess import call
 import os
 os.system("rm out.sh")
@@ -112,6 +113,18 @@ class installer(gtk.Window):
 		ext4 = gtk.RadioButton(group=ext3, label="ext4")
 		schemebox.add(ext4)
 		
+		
+		timezonepage = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
+		welcomelabel = gtk.Label("Pick a time zone.")
+		timezonepage.add(welcomelabel)
+		global zone
+		zone = gtk.ComboBoxText()
+		zone.append_text("US/Pacific")
+		zone.append_text("US/Central")
+		zone.append_text("US/Eastern")
+		zone.append_text("gmt")
+		timezonepage.add(zone)
+
 
 		finalpage = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
 		welcomelabel = gtk.Label("I'm now going to attempt to generate an install script based on the options you selected.\nYou should review it very carefully. It will almost certainly destroy your machine otherwise.")
@@ -119,16 +132,21 @@ class installer(gtk.Window):
 		gobutton = gtk.Button("GO!")
 		gobutton.connect("clicked", self.gobutton)
 		finalpage.pack_end(gobutton, False, False, padding=5)
-
+		terminal = vte.Terminal()
+		terminal.connect ("child-exited", lambda term: gtk.main_quit())
+		terminal.feed_child("echo hi", True)
+		finalpage.add(terminal)
 
 		#Tabs
 		software = gtk.Label("Software")
 		displaymanager = gtk.Label("Display Manager")
 		disks = gtk.Label("Disks")
 		finish = gtk.Label("Finish")
+		timezone = gtk.Label("Time Zone")
 		mainbook.append_page(partitionpage, disks)
 		mainbook.append_page(softwarepage, software)
 		mainbook.append_page(displaypage, displaymanager)
+		mainbook.append_page(timezonepage, timezone)
 		mainbook.append_page(finalpage, finish)
 
 
@@ -139,9 +157,9 @@ class installer(gtk.Window):
 		out = open("out.sh", "a");
 		
 		'''if ext3.get_active() == True:
-			out.write("sudo mkfs.ext3 NO NO NO NO NO\n")
+			out.write("sudo mkfs.ext3 NO\n")
 		if ext4.get_active() == True:
-			out.write("sudo mkfs.ext4 NO NO NO NO NO\n")'''
+			out.write("sudo mkfs.ext4 NO\n")'''
 
 		out.write("mkfs.ext4 /dev/sdb1\n")
 		out.write("mount /dev/sdb1 /mnt\n")
@@ -151,11 +169,11 @@ class installer(gtk.Window):
 		out.write("arch-chroot /mnt locale-gen\n")
 		out.write("arch-chroot /mnt echo LANG=en_US.UTF-8 > /etc/locale.conf\n")
 		out.write("arch-chroot /mnt EXPORT LANG=en_US.UTF-8\n")
-		out.write("arch-chroot /mnt ln -s /usr/share/zoneinfo/US/Central /etc/localtime\n")
+		out.write("arch-chroot /mnt ln -s /usr/share/zoneinfo/" + zone.get_active_text() + " /etc/localtime\n")
 		out.write("arch-chroot /mnt hwclock --systohc --utc\n")
 		out.write("arch-chroot /mnt echo hostname > /etc/hostname\n")
 		#out.write("arch-chroot /mnt echo 'A MAGICAL COMMAND THAT PUTS THE HOSTNAME IN /ETC/HOSTS'\n")
-		out.write("arch-chroot /mnt passwd " + "12345" + "\n")
+		out.write("arch-chroot /mnt passwd root 12345\n")
 		out.write("arch-chroot /mnt pacman -S grub\n")
 		out.write("arch-chroot /mnt grub-install --target=i386-pc --recheck /dev/sda\n")
 		out.write("arch-chroot /mnt grub-mkconfig -o /boot/grub/grub.cfg\n")
@@ -177,7 +195,7 @@ class installer(gtk.Window):
 		out.write("echo 'Done!'")
 			
 		out.close()
-		os.system("bash out.sh")
+		#os.system("bash out.sh")
 		gtk.main_quit()
 
 	def backbutton(self, button):
