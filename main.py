@@ -150,7 +150,7 @@ class installer(gtk.Window):
 		out.write("arch-chroot /mnt echo 'en_US.UTF-8 UTF-8' > /etc/locale.gen\n")
 		out.write("arch-chroot /mnt locale-gen\n")
 		out.write("arch-chroot /mnt echo LANG=en_US.UTF-8 > /etc/locale.conf\n")
-		out.write("arch-chroot /mnt export LANG=en_US.UTF-8\n")
+		out.write("arch-chroot /mnt EXPORT LANG=en_US.UTF-8\n")
 		out.write("arch-chroot /mnt ln -s /usr/share/zoneinfo/US/Central /etc/localtime\n")
 		out.write("arch-chroot /mnt hwclock --systohc --utc\n")
 		out.write("arch-chroot /mnt echo hostname > /etc/hostname\n")
