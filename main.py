@@ -41,7 +41,7 @@ class installer(gtk.Window):
 
 
 
-		#Page 1
+
 		softwarepage = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
 		welcomelabel = gtk.Label("Chose some packages:")
 		softwarepage.add(welcomelabel)
@@ -69,7 +69,7 @@ class installer(gtk.Window):
 		packages.append(kdenlive)
 
 
-		#Page 2
+
 		displaypage = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
 		welcomelabel = gtk.Label("Chose a display manager:")
 		displaypage.add(welcomelabel)
@@ -85,9 +85,9 @@ class installer(gtk.Window):
 		packages.append(x11)
 
 
-		#Page 3
+
 		partitionpage = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
-		welcomelabel = gtk.Label("Chose your partition scheme")
+		welcomelabel = gtk.Label("For now it will just be ext4 on /dev/sdb MAKE SURE THAT'S OKAY")
 		partitionpage.pack_start(welcomelabel, False, False, padding=5)
 		partbox = gtk.Box()
 		partitionpage.pack_end(partbox, True, True, padding=5)
@@ -112,9 +112,9 @@ class installer(gtk.Window):
 		ext4 = gtk.RadioButton(group=ext3, label="ext4")
 		schemebox.add(ext4)
 		
-		#Page 4
+
 		finalpage = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
-		welcomelabel = gtk.Label("I'm now going to attempt to generate an install script based on the options you selected.\nYou Should review it very carefully. It will almost certainly destroy your machine otherwise.")
+		welcomelabel = gtk.Label("I'm now going to attempt to generate an install script based on the options you selected.\nYou should review it very carefully. It will almost certainly destroy your machine otherwise.")
 		finalpage.add(welcomelabel)
 		gobutton = gtk.Button("GO!")
 		gobutton.connect("clicked", self.gobutton)
@@ -122,14 +122,14 @@ class installer(gtk.Window):
 
 
 		#Tabs
-		tab1label = gtk.Label("Software")
-		tab2label = gtk.Label("Display Manager")
-		tab3label = gtk.Label("Disks")
-		tab4label = gtk.Label("Finish")
-		mainbook.append_page(softwarepage, tab1label)
-		mainbook.append_page(displaypage, tab2label)
-		mainbook.append_page(partitionpage, tab3label)
-		mainbook.append_page(finalpage, tab4label)
+		software = gtk.Label("Software")
+		displaymanager = gtk.Label("Display Manager")
+		disks = gtk.Label("Disks")
+		finish = gtk.Label("Finish")
+		mainbook.append_page(partitionpage, disks)
+		mainbook.append_page(softwarepage, software)
+		mainbook.append_page(displaypage, displaymanager)
+		mainbook.append_page(finalpage, finish)
 
 
 	def nextbutton(self, button):
@@ -138,21 +138,46 @@ class installer(gtk.Window):
 	def gobutton(self, button):
 		out = open("out.sh", "a");
 		
-		if ext3.get_active() == True:
+		'''if ext3.get_active() == True:
 			out.write("sudo mkfs.ext3 NO NO NO NO NO\n")
 		if ext4.get_active() == True:
-			out.write("sudo mkfs.ext4 NO NO NO NO NO\n")
+			out.write("sudo mkfs.ext4 NO NO NO NO NO\n")'''
+
+		out.write("mkfs.ext4 /dev/sdb1\n")
+		out.write("mount /dev/sdb1 /mnt\n")
+		out.write("pacstrap -i /mnt base base-devel\n")
+		out.write("genfstab -U -p /mnt >> /mnt/etc/fstab\n")
+		out.write("arch-chroot /mnt echo 'en_US.UTF-8 UTF-8' > /etc/locale.gen\n")
+		out.write("arch-chroot /mnt locale-gen\n")
+		out.write("arch-chroot /mnt echo LANG=en_US.UTF-8 > /etc/locale.conf\n")
+		out.write("arch-chroot /mnt export LANG=en_US.UTF-8\n")
+		out.write("arch-chroot /mnt ln -s /usr/share/zoneinfo/US/Central /etc/localtime\n")
+		out.write("arch-chroot /mnt hwclock --systohc --utc\n")
+		out.write("arch-chroot /mnt echo hostname > /etc/hostname\n")
+		#out.write("arch-chroot /mnt echo 'A MAGICAL COMMAND THAT PUTS THE HOSTNAME IN /ETC/HOSTS'\n")
+		out.write("arch-chroot /mnt passwd " + "12345" + "\n")
+		out.write("arch-chroot /mnt pacman -S grub\n")
+		out.write("arch-chroot /mnt grub-install --target=i386-pc --recheck /dev/sda\n")
+		out.write("arch-chroot /mnt grub-mkconfig -o /boot/grub/grub.cfg\n")
+		#out.write("arch-chroot /mnt pacman -S liri-*\n")
+		out.write("arch-chroot /mnt pacman -S xorg-server xorg-xinit xorg-server-utils mesa\n")
+		out.write("arch-chroot /mnt pacman -S xorg-twm xorg-xclock xterm\n")
+		out.write("arch-chroot /mnt pacman -S lxde\n")
+		out.write("arch-chroot /mnt systemctl enable lxdm\n")
+		out.write("arch-chroot /mnt useradd -m -G wheel -s /bin/bash collin\n")
+		out.write("arch-chroot /mnt passwd collin 12345\n")
+		#out.write("arch-chroot /mnt visudo things\n")
 		
-		for package in packages:
+		'''for package in packages:
 			if package.get_active() == True:
-				out.write("sudo dnf install " + package.get_label() + "\n")
+				out.write("sudo pacman -S " + package.get_label() + "\n")
 			else:
-				out.write("echo 'skipping " + package.get_label() + "'\n")
+				out.write("echo 'skipping " + package.get_label() + "'\n")'''
 			
 		out.write("echo 'Done!'")
 			
 		out.close()
-		os.system("gnome-terminal -x sh -c 'bash out.sh; exec bash'")
+		os.system("bash out.sh")
 		gtk.main_quit()
 
 	def backbutton(self, button):
