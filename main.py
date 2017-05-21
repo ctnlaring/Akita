@@ -19,6 +19,7 @@ class installer(gtk.Window):
 		self.set_border_width(10)
 		box = gtk.Box(orientation=gtk.Orientation.VERTICAL)
 		self.add(box)
+		global mainbook
 		mainbook = gtk.Notebook()
 		box.pack_start(mainbook, True, True, padding=0)
 		
@@ -37,13 +38,12 @@ class installer(gtk.Window):
 		button = gtk.Button.new_with_label("Back")
 		button.connect("clicked", self.backbutton)
 		buttonbox.pack_end(button, False, False, padding=5)
-		button.set_sensitive(False)
 
 
 
 		#Page 1
 		page1 = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
-		welcomelabel = gtk.Label("Welcome to this unnamed thingy. Hopefully this will let you install arch linux at some point. As you chose options and click next on each page it will basically make a script based on what options you selected.")
+		welcomelabel = gtk.Label("Welcome to this unnamed thingy. Hopefully this will let you install arch linux at some point.\nAs you chose options and click next on each page it will make a script based on what options you selected.")
 		page1.add(welcomelabel)
 		testcheck = gtk.CheckButton("Install Firefox?")
 		page1.add(testcheck)
@@ -57,28 +57,39 @@ class installer(gtk.Window):
 		welcomelabel = gtk.Label("hello again")
 		page2.add(welcomelabel)
 		
+		#Page 3
+		page3 = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
+		if testcheck.get_active() == True:
+			print("fire")
+		welcomelabel = gtk.Label("I'm now going to attempt to generate an install script based on the options you selected.\nYou Should review it very, very carefully. It will almost certainly destroy your machine otherwise.")
+		page3.add(welcomelabel)
+		gobutton = gtk.Button("GO!")
+		page3.pack_end(gobutton, False, False, padding=5)
 
 		#Tabs
 		tab1label = gtk.Label("tab1")
 		tab2label = gtk.Label("tab2")
-		tab3label = gtk.Label("tab3")
+		tab3label = gtk.Label("Fin")
 		tab4label = gtk.Label("tab4")
 		tab5label = gtk.Label("tab5")
 		mainbook.append_page(page1, tab1label)
 		mainbook.append_page(page2, tab2label)
+		mainbook.append_page(page3, tab3label)
 
 
 	def nextbutton(self, button):
-		os.system("gnome-terminal -x sh -c 'bash out.sh; exec bash'")
+		#os.system("gnome-terminal -x sh -c 'bash out.sh; exec bash'")
+		mainbook.next_page()
+
 
 	def backbutton(self, button):
- 		pass
+		mainbook.prev_page()
 		
 	def quitbutton(self, button):
 		gtk.main_quit()
 
 win = installer()
-gtk.Window.resize(win,800,800)
+gtk.Window.resize(win,800,500)
 win.connect("delete-event", gtk.main_quit)
 win.show_all()
 gtk.main()
