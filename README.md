@@ -6,6 +6,7 @@ A graphical arch linux installer in python/pygtk
 
 
 Copyright (C) 2017 Collin Norwood
+
 Copying, modification, and distribution of the entire contents of this repository are permitted in any medium, provided this notice is preserved.
 
 
