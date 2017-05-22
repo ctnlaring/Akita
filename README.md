@@ -1,7 +1,7 @@
 # arch installer thingy
 A graphical arch linux installer in python/pygtk
 
-You can run this now with no risk of damaging anything. It can't actually format drives or anything scary yet.
+DO NOT PRESS GO ON THE FINAL PAGE UNLESS YOU DON'T CARE ABOUT /DEV/SDB!!!
 
 ![screenshot](http://i.imgur.com/ey7E88c.png "Super early")
 ![screenshot](http://i.imgur.com/47EiKrq.png "Super early")
