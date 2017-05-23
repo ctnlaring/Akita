@@ -63,7 +63,7 @@ class installer(gtk.Window):
 				label = gtk.Label("You're connected to the internet. Hooray.")
 				break
 			if cards.read().strip() != "up":
-				label = gtk.Label("Connect to the internet faggot")
+				label = gtk.Label("Connect to the internet")
 				break
 		welcomepage.add(label)
 		cards.close()
