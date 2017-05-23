@@ -3,8 +3,11 @@ A graphical arch linux installer in python/pygtk
 
 DO NOT PRESS GO ON THE FINAL PAGE UNLESS YOU DON'T CARE ABOUT /DEV/SDB!!!
 
-![screenshot](http://i.imgur.com/ey7E88c.png "Super early")
-![screenshot](http://i.imgur.com/47EiKrq.png "Super early")
+![screenshot](http://collinnorwood.com/arch/1.png "Super early")
+![screenshot](http://collinnorwood.com/arch/2.png "Super early")
+![screenshot](http://collinnorwood.com/arch/3.png "Super early")
+![screenshot](http://collinnorwood.com/arch/4.png "Super early")
+![screenshot](http://collinnorwood.com/arch/5.png "Super early")
 
 
 Copyright (C) 2017 Collin Norwood
