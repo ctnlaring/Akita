@@ -13,11 +13,14 @@ from subprocess import call
 import os
 os.system("rm out.sh")
 os.system("echo 'echo installing' > out.sh")
+
 class installer(gtk.Window):
 
 	def __init__(self):
+
 		gtk.Window.__init__(self, title="Arch installer")
 		self.set_border_width(10)
+		self.set_icon_from_file("icon.png")
 		box = gtk.Box(orientation=gtk.Orientation.VERTICAL)
 		self.add(box)
 		global mainbook
@@ -41,7 +44,16 @@ class installer(gtk.Window):
 		buttonbox.pack_end(button, False, False, padding=5)
 
 
-
+		welcomepage = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
+		welcomelabel = gtk.Label("Welcome to the thing")
+		welcomepage.add(welcomelabel)
+		langlabel = gtk.Label("Please choose a language for use during the installation (currently english only)")
+		welcomepage.add(langlabel)
+		lang = gtk.ComboBoxText()
+		lang.append_text("English")
+		welcomepage.add(lang)
+		
+		
 
 		softwarepage = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
 		welcomelabel = gtk.Label("Chose some packages:")
@@ -138,11 +150,13 @@ class installer(gtk.Window):
 		finalpage.add(terminal)
 
 		#Tabs
+		welcome = gtk.Label("Welcome")
 		software = gtk.Label("Software")
 		displaymanager = gtk.Label("Display Manager")
 		disks = gtk.Label("Disks")
 		finish = gtk.Label("Finish")
 		timezone = gtk.Label("Time Zone")
+		mainbook.append_page(welcomepage, welcome)
 		mainbook.append_page(partitionpage, disks)
 		mainbook.append_page(softwarepage, software)
 		mainbook.append_page(displaypage, displaymanager)
@@ -156,12 +170,11 @@ class installer(gtk.Window):
 	def gobutton(self, button):
 		out = open("out.sh", "a");
 		
-		'''if ext3.get_active() == True:
+		if ext3.get_active() == True:
 			out.write("sudo mkfs.ext3 NO\n")
 		if ext4.get_active() == True:
-			out.write("sudo mkfs.ext4 NO\n")'''
+			out.write("sudo mkfs.ext4 NO\n")
 
-		out.write("mkfs.ext4 /dev/sdb1\n")
 		out.write("mount /dev/sdb1 /mnt\n")
 		out.write("pacstrap -i /mnt base base-devel\n")
 		out.write("genfstab -U -p /mnt >> /mnt/etc/fstab\n")
@@ -186,16 +199,16 @@ class installer(gtk.Window):
 		out.write("arch-chroot /mnt passwd collin 12345\n")
 		#out.write("arch-chroot /mnt visudo things\n")
 		
-		'''for package in packages:
+		for package in packages:
 			if package.get_active() == True:
-				out.write("sudo pacman -S " + package.get_label() + "\n")
+				out.write("sudo dnf install " + package.get_label() + "\n")
 			else:
-				out.write("echo 'skipping " + package.get_label() + "'\n")'''
+				out.write("echo 'skipping " + package.get_label() + "'\n")
 			
 		out.write("echo 'Done!'")
 			
 		out.close()
-		#os.system("bash out.sh")
+		os.system("bash out.sh")
 		gtk.main_quit()
 
 	def backbutton(self, button):
