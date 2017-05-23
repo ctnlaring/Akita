@@ -52,8 +52,21 @@ class installer(gtk.Window):
 		welcomepage.add(langlabel)
 		lang = gtk.ComboBoxText()
 		lang.append_text("English")
+		lang.set_active(0)
 		welcomepage.add(lang)
-		
+		label = gtk.Label("This is pre-release software. It's not ready for use on systems with installations you care about.\nFor now it won't run 'out.sh' automatically. Do so manually only after you've verified it's correct\nI'm not responsible if it breaks anything")
+		welcomepage.add(label)
+		interfaces = os.listdir("/sys/class/net")
+		for interface in interfaces:
+			cards = open("/sys/class/net/" + interface + "/operstate", "r")
+			if cards.read().strip() == "up":
+				label = gtk.Label("You're connected to the internet. Hooray.")
+				break
+			if cards.read().strip() != "up":
+				label = gtk.Label("Connect to the internet faggot")
+				break
+		welcomepage.add(label)
+		cards.close()
 		
 
 		softwarepage = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
@@ -136,6 +149,7 @@ class installer(gtk.Window):
 		zone.append_text("US/Central")
 		zone.append_text("US/Eastern")
 		zone.append_text("gmt")
+		zone.set_active(1)
 		timezonepage.add(zone)
 		namelabel = gtk.Label("Enter a hostname:")
 		timezonepage.add(namelabel)
@@ -163,7 +177,7 @@ class installer(gtk.Window):
 
 
 		finalpage = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
-		welcomelabel = gtk.Label("I'm now going to attempt to generate an install script based on the options you selected.\nYou should review it very carefully. It will almost certainly destroy your machine otherwise.")
+		welcomelabel = gtk.Label("I'm now going to attempt to generate an install script based on the options you selected.\nI won't run it automatically for now. Do so manually only after careful review.")
 		finalpage.add(welcomelabel)
 		gobutton = gtk.Button("GO!")
 		gobutton.connect("clicked", self.gobutton)
