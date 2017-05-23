@@ -100,7 +100,7 @@ class installer(gtk.Window):
 
 
 		partitionpage = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
-		welcomelabel = gtk.Label("For now it will just be ext4 on /dev/sdb MAKE SURE THAT'S OKAY")
+		welcomelabel = gtk.Label("Choose your partitions")
 		partitionpage.pack_start(welcomelabel, False, False, padding=5)
 		partbox = gtk.Box()
 		partitionpage.pack_end(partbox, True, True, padding=5)
@@ -136,6 +136,29 @@ class installer(gtk.Window):
 		zone.append_text("US/Eastern")
 		zone.append_text("gmt")
 		timezonepage.add(zone)
+		namelabel = gtk.Label("Enter a hostname:")
+		timezonepage.add(namelabel)
+		global hostname
+		hostname = gtk.Entry()
+		hostname.set_text("arch")
+		timezonepage.add(hostname)
+		
+		userpage = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
+		welcomelabel = gtk.Label("Root password:")
+		userpage.add(welcomelabel)
+		global rootpassword
+		rootpassword = gtk.Entry()
+		userpage.add(rootpassword)
+		info = gtk.Label("Username:")
+		userpage.add(info)
+		global username
+		username = gtk.Entry()
+		userpage.add(username)
+		info = gtk.Label("Password:")
+		userpage.add(info)
+		global password
+		password = gtk.Entry()
+		userpage.add(password)
 
 
 		finalpage = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
@@ -154,6 +177,7 @@ class installer(gtk.Window):
 		software = gtk.Label("Software")
 		displaymanager = gtk.Label("Display Manager")
 		disks = gtk.Label("Disks")
+		users = gtk.Label("Users")
 		finish = gtk.Label("Finish")
 		timezone = gtk.Label("Time Zone")
 		mainbook.append_page(welcomepage, welcome)
@@ -161,6 +185,7 @@ class installer(gtk.Window):
 		mainbook.append_page(softwarepage, software)
 		mainbook.append_page(displaypage, displaymanager)
 		mainbook.append_page(timezonepage, timezone)
+		mainbook.append_page(userpage, users)
 		mainbook.append_page(finalpage, finish)
 
 
@@ -170,23 +195,31 @@ class installer(gtk.Window):
 	def gobutton(self, button):
 		out = open("out.sh", "a");
 		
-		if ext3.get_active() == True:
-			out.write("sudo mkfs.ext3 NO\n")
-		if ext4.get_active() == True:
-			out.write("sudo mkfs.ext4 NO\n")
+		if ext3.get_active() & drive1.get_active():
+			out.write("sudo mkfs.ext3 NO NO /dev/sda\n")
+		if ext3.get_active() & drive2.get_active():
+			out.write("sudo mkfs.ext3 NO NO /dev/sdb\n")
+		if ext4.get_active() & drive1.get_active():
+			out.write("sudo mkfs.ext4 NO NO /dev/sda\n")
+		if ext4.get_active() & drive2.get_active():
+			out.write("sudo mkfs.ext4 NO NO /dev/sdb\n")
 
-		out.write("mount /dev/sdb1 /mnt\n")
+		if drive1.get_active():
+			out.write("mount /dev/sda1 /mnt\n")
+		if drive2.get_active():
+			out.write("mount /dev/sdb1 /mnt\n")
+
 		out.write("pacstrap -i /mnt base base-devel\n")
 		out.write("genfstab -U -p /mnt >> /mnt/etc/fstab\n")
 		out.write("arch-chroot /mnt echo 'en_US.UTF-8 UTF-8' > /etc/locale.gen\n")
 		out.write("arch-chroot /mnt locale-gen\n")
 		out.write("arch-chroot /mnt echo LANG=en_US.UTF-8 > /etc/locale.conf\n")
 		out.write("arch-chroot /mnt EXPORT LANG=en_US.UTF-8\n")
-		out.write("arch-chroot /mnt ln -s /usr/share/zoneinfo/" + zone.get_active_text() + " /etc/localtime\n")
+		out.write("arch-chroot /mnt ln -s /usr/share/zoneinfo/" + str(zone.get_active_text()) + " /etc/localtime\n")
 		out.write("arch-chroot /mnt hwclock --systohc --utc\n")
-		out.write("arch-chroot /mnt echo hostname > /etc/hostname\n")
+		out.write("arch-chroot /mnt echo " + hostname.get_text() + " > /etc/hostname\n")
 		#out.write("arch-chroot /mnt echo 'A MAGICAL COMMAND THAT PUTS THE HOSTNAME IN /ETC/HOSTS'\n")
-		out.write("arch-chroot /mnt passwd root 12345\n")
+		out.write("arch-chroot /mnt passwd root " + rootpassword.get_text() + "\n")
 		out.write("arch-chroot /mnt pacman -S grub\n")
 		out.write("arch-chroot /mnt grub-install --target=i386-pc --recheck /dev/sda\n")
 		out.write("arch-chroot /mnt grub-mkconfig -o /boot/grub/grub.cfg\n")
@@ -195,8 +228,8 @@ class installer(gtk.Window):
 		out.write("arch-chroot /mnt pacman -S xorg-twm xorg-xclock xterm\n")
 		out.write("arch-chroot /mnt pacman -S lxde\n")
 		out.write("arch-chroot /mnt systemctl enable lxdm\n")
-		out.write("arch-chroot /mnt useradd -m -G wheel -s /bin/bash collin\n")
-		out.write("arch-chroot /mnt passwd collin 12345\n")
+		out.write("arch-chroot /mnt useradd -m -G wheel -s /bin/bash " + username.get_text() + "\n")
+		out.write("arch-chroot /mnt passwd " + username.get_text() +  " " + password.get_text() + "\n")
 		#out.write("arch-chroot /mnt visudo things\n")
 		
 		for package in packages:
@@ -208,7 +241,7 @@ class installer(gtk.Window):
 		out.write("echo 'Done!'")
 			
 		out.close()
-		os.system("bash out.sh")
+		#os.system("bash out.sh")
 		gtk.main_quit()
 
 	def backbutton(self, button):
