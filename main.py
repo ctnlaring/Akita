@@ -18,9 +18,10 @@ class installer(gtk.Window):
 
 	def __init__(self):
 
-		gtk.Window.__init__(self, title="Arch installer")
+		gtk.Window.__init__(self, title="Arch Installer")
 		self.set_border_width(10)
 		self.set_icon_from_file("icon.png")
+		self.set_wmclass ("Arch Installer", "Arch Installer")
 		box = gtk.Box(orientation=gtk.Orientation.VERTICAL)
 		self.add(box)
 		global mainbook
@@ -234,7 +235,7 @@ class installer(gtk.Window):
 		
 		for package in packages:
 			if package.get_active() == True:
-				out.write("sudo dnf install " + package.get_label() + "\n")
+				out.write("sudo pacman -S install " + package.get_label() + "\n")
 			else:
 				out.write("echo 'skipping " + package.get_label() + "'\n")
 			
