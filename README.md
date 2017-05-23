@@ -1,4 +1,4 @@
-#Arch Installer 
+# Arch Installer 
 A graphical arch linux installer in python/pygtk
 
 DO NOT PRESS GO ON THE FINAL PAGE UNLESS YOU DON'T CARE ABOUT /DEV/SDB!!!
