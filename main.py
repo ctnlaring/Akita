@@ -108,7 +108,7 @@ class installer(gtk.Window):
 
 		partitionpage = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
 		welcomelabel = gtk.Label()
-		welcomelabel.set_markup("<b>Choose your partitions</b>")
+		welcomelabel.set_markup("<b>Choose your partitions:</b>")
 		partitionpage.pack_start(welcomelabel, False, False, padding=5)
 		partbox = gtk.Box()
 		partitionpage.pack_end(partbox, True, True, padding=5)
@@ -135,8 +135,7 @@ class installer(gtk.Window):
 		
 		
 		timezonepage = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
-		welcomelabel = gtk.Label()
-		welcomelabel.set_markup("<b>Pick a time zone.</b>")
+		welcomelabel = gtk.Label("Pick a time zone:")
 		timezonepage.add(welcomelabel)
 		global zone
 		zone = gtk.ComboBoxText()
@@ -179,7 +178,8 @@ class installer(gtk.Window):
 	
 
 		finalpage = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
-		welcomelabel = gtk.Label("I'm now going to attempt to generate an install script based on the options you selected.\nI won't run it automatically for now. Do so manually only after careful review.")
+		welcomelabel = gtk.Label()
+		welcomelabel.set_markup("I'm now going to attempt to generate an install script based on the options you selected.\nI won't run it automatically for now. Do so manually only after <b>careful</b> review.")
 		finalpage.add(welcomelabel)
 		gobutton = gtk.Button("GO!")
 		gobutton.connect("clicked", self.write)
