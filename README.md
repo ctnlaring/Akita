@@ -11,15 +11,6 @@ You should install [Liri's material gtk theme](https://www.github.com/lirios/mat
 Icon by the wonderful [Patryk Michalik](https://plus.google.com/u/0/+PatrykMichalik2003)
 
 
-These screenshots are of a very early version. It will look a lot better in the future:
-
-![screenshot](http://collinnorwood.com/arch/welcome.png "Super early")
-![screenshot](http://collinnorwood.com/arch/disks.png "Super early")
-![screenshot](http://collinnorwood.com/arch/users.png "Super early")
-![screenshot](http://collinnorwood.com/arch/zone.png "Super early")
-![screenshot](http://collinnorwood.com/arch/finish.png "Super early")
-
-
 Copyright (C) 2017 Collin Norwood
 
 Copying, modification, and distribution of the entire contents of this repository are permitted in any medium, provided this notice is preserved.
