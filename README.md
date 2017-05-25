@@ -10,6 +10,10 @@ Currently it can generate a script (out.sh) that  will ocasionally work without 
 Install [Liri's material gtk theme](https://www.github.com/lirios/material-gtk-theme) to make it look nice
 
 
+Here's a screenshot of the first screen, Everything's changing on a daily basis so this probably isn't current:
+
+![Screenshot](http://collinnorwood.com/akita/akita.png)
+
 ##### Copyright (C) 2017 Collin Norwood
 
 Copying, modification, and distribution of the entire contents of this repository are permitted in any medium, provided this notice is preserved.
