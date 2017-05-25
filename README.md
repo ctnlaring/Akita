@@ -5,6 +5,8 @@ Currently it can generate a script (out.sh) that  will ocasionally work without 
 
 You should install [Liri's material gtk theme](https://www.github.com/lirios/material-gtk-theme) to make it look nice
 
+Icon by ![Patryk Michalik](https://plus.google.com/u/0/+PatrykMichalik2003)
+
 ![screenshot](http://collinnorwood.com/arch/welcome.png "Super early")
 ![screenshot](http://collinnorwood.com/arch/disks.png "Super early")
 ![screenshot](http://collinnorwood.com/arch/users.png "Super early")
