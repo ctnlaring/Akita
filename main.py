@@ -304,6 +304,8 @@ class installer(gtk.Window):
 		#Make sure a root password was entered
 		if rootpassword.get_text().strip() == "":
 			raise ValueError("You didn't enter a root password")
+			os.system("rm out.sh")
+			os.system("echo 'echo installing' > out.sh")
 		else:
 			out.write("arch-chroot /mnt passwd root " + rootpassword.get_text().strip() + "\n")
 
@@ -331,6 +333,8 @@ class installer(gtk.Window):
 				
 		if username.get_text().strip() == "":
 			raise ValueError("You didn't enter a username")
+			os.system("rm out.sh")
+			os.system("echo 'echo installing' > out.sh")
 		else:
 			out.write("arch-chroot /mnt useradd -m -G wheel -s /bin/bash " + username.get_text().strip()+ "\n")
 		
@@ -338,6 +342,8 @@ class installer(gtk.Window):
 
 		if password.get_text().strip() == "":
 			raise ValueError("You didn't enter a user password")
+			os.system("rm out.sh")
+			os.system("echo 'echo installing' > out.sh")
 		else:
 			out.write("arch-chroot /mnt passwd " + username.get_text().strip()+  " " + password.get_text().strip()+ "\n")
 		
