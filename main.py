@@ -84,14 +84,49 @@ class installer(gtk.Window):
 		welcomelabel.set_markup("<b>This will let you pick keyboard layouts</b>")
 		keyboardpage.add(welcomelabel)
 
-		softwarepage = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
+		softwarepage = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=10)
 		welcomelabel = gtk.Label()
 		welcomelabel.set_markup("<b>Chose some packages:</b>")
 		softwarepage.add(welcomelabel)
 		global packages
 		packages = [];
+		softwarebook = gtk.Notebook()
+		softwarebook.set_tab_pos(gtk.PositionType.LEFT)
+		softwarepage.pack_end(softwarebook, True, True, padding=5)
+		
+		page01 = gtk.Box()
+		pagelabel = gtk.Label("Page 1")
+		page01.add(pagelabel)
+		
+		page02 = gtk.Box()
+		pagelabel = gtk.Label("Page 2")
+		page02.add(pagelabel)
+		
+		page03 = gtk.Box()
+		pagelabel = gtk.Label("Page 3")
+		page03.add(pagelabel)
+		
+		page04 = gtk.Box()
+		pagelabel = gtk.Label("Page 4")
+		page04.add(pagelabel)
+		
+		page05 = gtk.Box()
+		pagelabel = gtk.Label("Page 5")
+		page05.add(pagelabel)
+		
+		page1 = gtk.Label("page1")
+		page2 = gtk.Label("page2")
+		page3 = gtk.Label("page3")
+		page4 = gtk.Label("page4")
+		page5 = gtk.Label("page5")
+		softwarebook.append_page(page01, page1)
+		softwarebook.append_page(page02, page2)
+		softwarebook.append_page(page03, page3)
+		softwarebook.append_page(page04, page4)
+		softwarebook.append_page(page05, page5)
 
-		global firefox
+		
+		'''global firefox
 		firefox = gtk.CheckButton("firefox")
 		softwarepage.add(firefox)
 		packages.append(firefox)
@@ -109,7 +144,7 @@ class installer(gtk.Window):
 		global kdenlive
 		kdenlive = gtk.CheckButton("kdenlive")
 		softwarepage.add(kdenlive)
-		packages.append(kdenlive)
+		packages.append(kdenlive)'''
 
 
 		partitionpage = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
