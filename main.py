@@ -104,13 +104,29 @@ class installer(gtk.Window):
 		partbox.add(drivebox)
 		partbox.add(schemebox)
 		
-		global drive1
-		drive1 = gtk.RadioButton("/dev/sda")
-		drivebox.add(drive1)
-		global drive2
-		drive2 = gtk.RadioButton(group=drive1, label="/dev/sdb")
-		drivebox.add(drive2)
 		
+		#This code is written poorly
+		drives = os.listdir("/dev")
+		runs = 1
+		global partitions
+		partitions = []
+		for drive in drives:
+			if drives[drives.index(drive)][0]=="s" and drives[drives.index(drive)][1]=="d":
+				partitions.append("/dev/" + drive)
+		partitions.reverse()
+		
+			
+		for partition in partitions:
+			print partition
+			
+		'''if drives[drives.index(drive)][0]=="s" and drives[drives.index(drive)][1]=="d":
+				if runs == 1:
+					runs = 2
+					firstdrive = gtk.RadioButton("/dev/" + drive)
+					
+				disk = gtk.RadioButton(group=firstdrive, label="/dev/" + drive)
+				drivebox.add(disk)
+		'''
 		global ext3
 		ext3 = gtk.RadioButton("ext3")
 		schemebox.add(ext3)
@@ -274,8 +290,17 @@ class installer(gtk.Window):
 		print("generating install script")
 		out = open("out.sh", "a");
 		
+		
+		'''drives = os.listdir("/dev")
+		runs = 1
+		for drive in drives:
+			if drives[drives.index(drive)][0]=="s" and drives[drives.index(drive)][1]=="d":
+				if drive.get_active():
+					print(drive + "is active")
+				drivebox.add(drive)'''
+		
 		#Format the drive
-		if ext3.get_active() & drive1.get_active():
+		'''if ext3.get_active() & drive1.get_active():
 			out.write("sudo mkfs.ext3 NO NO /dev/sda\n")
 		if ext3.get_active() & drive2.get_active():
 			out.write("sudo mkfs.ext3 NO NO /dev/sdb\n")
@@ -388,7 +413,7 @@ class installer(gtk.Window):
 		print("")
 		print("")
 		print("Now open 'out.sh' in your favorite editor and make sure it's correct before running it. You've been warned")
-		gtk.main_quit()
+		gtk.main_quit()'''
 
 	def backbutton(self, button):
 		mainbook.prev_page()
