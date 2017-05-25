@@ -12,6 +12,7 @@ Install [Liri's material gtk theme](https://www.github.com/lirios/material-gtk-t
 
 
 Name:
+
 I spent a long time tryint to come up with a name and after having no luck with Alice in wonderland names (family tradition of using AIW charachters as hostnames) I Googled "Animals that start with A" (for Arch Linux) and Akita sounded cool. 
 
 
