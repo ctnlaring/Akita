@@ -3,7 +3,7 @@ A graphical arch linux installer in python/pygtk
 
 Currently it can generate a script (out.sh) that  will ocasionally work without any modification. Right now you should carefully review out.sh and make sure everything's correct.
 
-You should install[Liri's material gtk theme](https://www.github.com/lirios/material-gtk-theme) to make it look nice
+You should install [Liri's material gtk theme](https://www.github.com/lirios/material-gtk-theme) to make it look nice
 
 ![screenshot](http://collinnorwood.com/arch/welcome.png "Super early")
 ![screenshot](http://collinnorwood.com/arch/disks.png "Super early")
