@@ -69,7 +69,7 @@ class installer(gtk.Window):
 			if cards.read().strip() == "up":
 				print("Found a working connection")
 				label = gtk.Label()
-				label.set_markup("<b>You're connected to the internet. Hooray.</b>")
+				label.set_markup("You're connected to the internet. Hooray.")
 				break
 			if cards.read().strip() != "up":
 				print ("it appears to be down")
@@ -77,7 +77,14 @@ class installer(gtk.Window):
 				label.set_markup("<b>You don't appear to be connected to the internet.</b>")
 		welcomepage.add(label)
 		cards.close()
-		
+		helpbox = gtk.Box()
+		welcomepage.pack_end(helpbox, True, False, padding=6)
+		help = gtk.LinkButton("https://github.com/collinthegeek/Akita/issues/new", label="Help!")
+
+		helpbox.pack_start(help, True, False, padding=6)
+		github = gtk.LinkButton("https://github.com/collinthegeek/Akita", label="Github")
+
+		helpbox.pack_end(github, True, False, padding=6)
 
 		keyboardpage = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
 		welcomelabel = gtk.Label()
