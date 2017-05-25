@@ -85,11 +85,83 @@ class installer(gtk.Window):
 		github = gtk.LinkButton("https://github.com/collinthegeek/Akita", label="Github")
 
 		helpbox.pack_end(github, True, False, padding=6)
+		
+	
+		
+		partitionpage = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
+		welcomelabel = gtk.Label()
+		welcomelabel.set_markup("<b>Choose your partitions:</b>")
+		partitionpage.add(welcomelabel)
+		partbox = gtk.Box()
+		partitionpage.pack_end(partbox, True, True, padding=5)
+		drivebox = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
+		schemebox = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
+		partbox.add(drivebox)
+		partbox.add(schemebox)
+		
+		global drive1
+		drive1 = gtk.RadioButton("/dev/sda")
+		drivebox.add(drive1)
+		
+		global drive2
+		drive2 = gtk.RadioButton(group=drive1, label="/dev/sdb")
+		drivebox.add(drive2)
+		
+		global ext3
+		ext3 = gtk.RadioButton("ext3")
+		schemebox.add(ext3)
+		
+		global ext4
+		ext4 = gtk.RadioButton(group=ext3, label="ext4")
+		schemebox.add(ext4)
+		
+
 
 		keyboardpage = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
 		welcomelabel = gtk.Label()
 		welcomelabel.set_markup("<b>This will let you pick keyboard layouts</b>")
 		keyboardpage.add(welcomelabel)
+
+
+
+		timezonepage = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
+		welcomelabel = gtk.Label("Pick a time zone:")
+		timezonepage.add(welcomelabel)
+		global zone
+		zone = gtk.ComboBoxText()
+		zone.append_text("US/Pacific")
+		zone.append_text("US/Central")
+		zone.append_text("US/Eastern")
+		zone.append_text("gmt")
+		zone.set_active(0)
+		timezonepage.add(zone)
+		namelabel = gtk.Label("Enter a hostname:")
+		timezonepage.add(namelabel)
+		global hostname
+		hostname = gtk.Entry()
+		hostname.set_text("arch")
+		timezonepage.add(hostname)
+
+		
+		
+		userpage = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
+		welcomelabel = gtk.Label("Root password:")
+		userpage.add(welcomelabel)
+		global rootpassword
+		rootpassword = gtk.Entry()
+		userpage.add(rootpassword)
+		info = gtk.Label("Username:")
+		userpage.add(info)
+		global username
+		username = gtk.Entry()
+		userpage.add(username)
+		info = gtk.Label("Password:")
+		userpage.add(info)
+		global password
+		password = gtk.Entry()
+		userpage.add(password)
+		
+
 
 		softwarepage = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
 		global packages
@@ -150,70 +222,8 @@ class installer(gtk.Window):
 		softwarebook.append_page(devtoolspage, devtools)
 		softwarebook.append_page(educationpage, education)
 		softwarebook.append_page(utilitiespage, utilites)
-
-
-		partitionpage = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
-		welcomelabel = gtk.Label()
-		welcomelabel.set_markup("<b>Choose your partitions:</b>")
-		partitionpage.add(welcomelabel)
-		partbox = gtk.Box()
-		partitionpage.pack_end(partbox, True, True, padding=5)
-		drivebox = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
-		schemebox = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
-		partbox.add(drivebox)
-		partbox.add(schemebox)
-		
-		global drive1
-		drive1 = gtk.RadioButton("/dev/sda")
-		drivebox.add(drive1)
-		
-		global drive2
-		drive2 = gtk.RadioButton(group=drive1, label="/dev/sdb")
-		drivebox.add(drive2)
-		
-		global ext3
-		ext3 = gtk.RadioButton("ext3")
-		schemebox.add(ext3)
-		
-		global ext4
-		ext4 = gtk.RadioButton(group=ext3, label="ext4")
-		schemebox.add(ext4)
 		
 		
-		timezonepage = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
-		welcomelabel = gtk.Label("Pick a time zone:")
-		timezonepage.add(welcomelabel)
-		global zone
-		zone = gtk.ComboBoxText()
-		zone.append_text("US/Pacific")
-		zone.append_text("US/Central")
-		zone.append_text("US/Eastern")
-		zone.append_text("gmt")
-		zone.set_active(0)
-		timezonepage.add(zone)
-		namelabel = gtk.Label("Enter a hostname:")
-		timezonepage.add(namelabel)
-		global hostname
-		hostname = gtk.Entry()
-		hostname.set_text("arch")
-		timezonepage.add(hostname)
-		
-		userpage = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
-		welcomelabel = gtk.Label("Root password:")
-		userpage.add(welcomelabel)
-		global rootpassword
-		rootpassword = gtk.Entry()
-		userpage.add(rootpassword)
-		info = gtk.Label("Username:")
-		userpage.add(info)
-		global username
-		username = gtk.Entry()
-		userpage.add(username)
-		info = gtk.Label("Password:")
-		userpage.add(info)
-		global password
-		password = gtk.Entry()
-		userpage.add(password)
 
 
 		summarypage = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
@@ -237,20 +247,19 @@ class installer(gtk.Window):
 
 		#Tabs
 		welcome = gtk.Label("Welcome")
-		software = gtk.Label("Software")
-		displaymanager = gtk.Label("Display Manager")
 		disks = gtk.Label("Disks")
-		users = gtk.Label("Users")
-		finish = gtk.Label("Finish")
-		timezone = gtk.Label("Time Zone")
-		summary = gtk.Label("Summary")
 		keyboard = gtk.Label("Keyboard layout")
+		timezone = gtk.Label("Time Zone")
+		users = gtk.Label("Users")
+		software = gtk.Label("Software")
+		summary = gtk.Label("Summary")
+		finish = gtk.Label("Finish")
 		mainbook.append_page(welcomepage, welcome)
 		mainbook.append_page(partitionpage, disks)
-		mainbook.append_page(softwarepage, software)
 		mainbook.append_page(keyboardpage, keyboard)
 		mainbook.append_page(timezonepage, timezone)
 		mainbook.append_page(userpage, users)
+		mainbook.append_page(softwarepage, software)
 		mainbook.append_page(summarypage, summary)
 		mainbook.append_page(finalpage, finish)
 
