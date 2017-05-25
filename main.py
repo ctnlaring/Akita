@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*- 
 #
-# main.py
+# Akita
 # Copyright (C) 2017 Collin Norwood <cnorwood7641@stu.neisd.net>
 
 import gi
@@ -22,7 +22,7 @@ class installer(gtk.Window):
 
 		gtk.Window.__init__(self, title="Akita")
 		self.set_border_width(10)
-		self.set_icon_from_file("icon.png")
+		self.set_icon_from_file("./icon.png")
 		self.set_wmclass ("Akita", "Akita")
 		box = gtk.Box(orientation=gtk.Orientation.VERTICAL)
 		self.add(box)
@@ -115,7 +115,7 @@ class installer(gtk.Window):
 		partitionpage = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
 		welcomelabel = gtk.Label()
 		welcomelabel.set_markup("<b>Choose your partitions:</b>")
-		partitionpage.pack_start(welcomelabel, False, False, padding=5)
+		partitionpage.add(welcomelabel)
 		partbox = gtk.Box()
 		partitionpage.pack_end(partbox, True, True, padding=5)
 		drivebox = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
