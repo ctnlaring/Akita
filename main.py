@@ -54,7 +54,7 @@ class installer(gtk.Window):
 		lang.append_text("English")
 		lang.set_active(0)
 		welcomepage.add(lang)
-		label = gtk.Label("This is pre-release software. It's not ready for use on systems with installations you care about.\nFor now it won't run 'out.sh' automatically. Do so manually only after you've verified it's correct\nI'm not responsible if it breaks anything")
+		label = gtk.Label("\n\nThis is pre-release software. It's not ready for use on systems with installations you care about.\nFor now it won't run 'out.sh' automatically. Do so manually only after you've verified it's correct\nI'm not responsible if it breaks anything\n\n")
 		welcomepage.add(label)
 		interfaces = os.listdir("/sys/class/net")
 		for interface in interfaces:
@@ -68,6 +68,10 @@ class installer(gtk.Window):
 		welcomepage.add(label)
 		cards.close()
 		
+
+		keyboardpage = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
+		welcomelabel = gtk.Label("This will let you pick keyboard layouts")
+		keyboardpage.add(welcomelabel)
 
 		softwarepage = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
 		welcomelabel = gtk.Label("Chose some packages:")
@@ -180,7 +184,7 @@ class installer(gtk.Window):
 		welcomelabel = gtk.Label("I'm now going to attempt to generate an install script based on the options you selected.\nI won't run it automatically for now. Do so manually only after careful review.")
 		finalpage.add(welcomelabel)
 		gobutton = gtk.Button("GO!")
-		gobutton.connect("clicked", self.gobutton)
+		gobutton.connect("clicked", self.write)
 		finalpage.pack_end(gobutton, False, False, padding=5)
 		terminal = vte.Terminal()
 		terminal.connect ("child-exited", lambda term: gtk.main_quit())
@@ -195,10 +199,12 @@ class installer(gtk.Window):
 		users = gtk.Label("Users")
 		finish = gtk.Label("Finish")
 		timezone = gtk.Label("Time Zone")
+		keyboard = gtk.Label("Keyboard layout")
 		mainbook.append_page(welcomepage, welcome)
 		mainbook.append_page(partitionpage, disks)
 		mainbook.append_page(softwarepage, software)
 		mainbook.append_page(displaypage, displaymanager)
+		mainbook.append_page(keyboardpage, keyboard)
 		mainbook.append_page(timezonepage, timezone)
 		mainbook.append_page(userpage, users)
 		mainbook.append_page(finalpage, finish)
@@ -207,9 +213,10 @@ class installer(gtk.Window):
 	def nextbutton(self, button):
 		mainbook.next_page()
 		
-	def gobutton(self, button):
+	def write(self, button):
 		out = open("out.sh", "a");
 		
+		#Format the drive
 		if ext3.get_active() & drive1.get_active():
 			out.write("sudo mkfs.ext3 NO NO /dev/sda\n")
 		if ext3.get_active() & drive2.get_active():
@@ -219,11 +226,13 @@ class installer(gtk.Window):
 		if ext4.get_active() & drive2.get_active():
 			out.write("sudo mkfs.ext4 NO NO /dev/sdb\n")
 
+		#Mount
 		if drive1.get_active():
 			out.write("mount /dev/sda1 /mnt\n")
 		if drive2.get_active():
 			out.write("mount /dev/sdb1 /mnt\n")
 
+		#Arch stuff
 		out.write("pacstrap -i /mnt base base-devel\n")
 		out.write("genfstab -U -p /mnt >> /mnt/etc/fstab\n")
 		out.write("arch-chroot /mnt echo 'en_US.UTF-8 UTF-8' > /etc/locale.gen\n")
@@ -232,9 +241,15 @@ class installer(gtk.Window):
 		out.write("arch-chroot /mnt EXPORT LANG=en_US.UTF-8\n")
 		out.write("arch-chroot /mnt ln -s /usr/share/zoneinfo/" + str(zone.get_active_text()) + " /etc/localtime\n")
 		out.write("arch-chroot /mnt hwclock --systohc --utc\n")
-		out.write("arch-chroot /mnt echo " + hostname.get_text() + " > /etc/hostname\n")
+		out.write("arch-chroot /mnt echo " + hostname.get_text().strip()+ " > /etc/hostname\n")
 		#out.write("arch-chroot /mnt echo 'A MAGICAL COMMAND THAT PUTS THE HOSTNAME IN /ETC/HOSTS'\n")
-		out.write("arch-chroot /mnt passwd root " + rootpassword.get_text() + "\n")
+		
+		#Make sure a root password was entered
+		if rootpassword.get_text().strip() == "":
+			raise ValueError("You didn't enter a root password")
+		else:
+			out.write("arch-chroot /mnt passwd root " + rootpassword.get_text().strip() + "\n")
+			
 		out.write("arch-chroot /mnt pacman -S grub\n")
 		out.write("arch-chroot /mnt grub-install --target=i386-pc --recheck /dev/sda\n")
 		out.write("arch-chroot /mnt grub-mkconfig -o /boot/grub/grub.cfg\n")
@@ -243,8 +258,15 @@ class installer(gtk.Window):
 		out.write("arch-chroot /mnt pacman -S xorg-twm xorg-xclock xterm\n")
 		out.write("arch-chroot /mnt pacman -S lxde\n")
 		out.write("arch-chroot /mnt systemctl enable lxdm\n")
-		out.write("arch-chroot /mnt useradd -m -G wheel -s /bin/bash " + username.get_text() + "\n")
-		out.write("arch-chroot /mnt passwd " + username.get_text() +  " " + password.get_text() + "\n")
+				
+		if username.get_text().strip() == "":
+			raise ValueError("You didn't enter a username")
+		else:
+			out.write("arch-chroot /mnt useradd -m -G wheel -s /bin/bash " + username.get_text().strip()+ "\n")
+		if password.get_text().strip() == "":
+			raise ValueError("You didn't enter a user password")
+		else:
+			out.write("arch-chroot /mnt passwd " + username.get_text().strip()+  " " + password.get_text().strip()+ "\n")
 		#out.write("arch-chroot /mnt visudo things\n")
 		
 		for package in packages:
