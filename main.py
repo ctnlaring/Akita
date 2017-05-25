@@ -22,7 +22,7 @@ class installer(gtk.Window):
 
 		gtk.Window.__init__(self, title="Akita")
 		self.set_border_width(10)
-		self.set_icon_from_file("./icon.png")
+		self.set_icon_from_file("icon.png")
 		self.set_wmclass ("Akita", "Akita")
 		box = gtk.Box(orientation=gtk.Orientation.VERTICAL)
 		self.add(box)
@@ -48,17 +48,23 @@ class installer(gtk.Window):
 
 
 		welcomepage = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
+		topbox = gtk.Box()
+		welcomepage.add(topbox)
+		icon = gtk.Image()
+		icon.set_from_file("icon.png")
+		topbox.add(icon)
 		welcomelabel = gtk.Label()
-		welcomelabel.set_markup("<b>Welcome to Akita</b>")
-		welcomepage.add(welcomelabel)
-		langlabel = gtk.Label("Please choose a language for use during the installation (currently english only)")
+		welcomelabel.set_markup("<span font_size='x-large'><b>Welcome to Akita</b> - v0.6</span>")
+		topbox.add(welcomelabel)
+		'''langlabel = gtk.Label("Please choose a language for use during the installation (currently english only)")
 		welcomepage.add(langlabel)
 		lang = gtk.ComboBoxText()
 		lang.append_text("English")
 		lang.set_active(0)
-		welcomepage.add(lang)
+		welcomepage.add(lang)'''
 		label = gtk.Label()
-		label.set_markup("<b>\n\nThis is pre-release software. It's not ready for use on systems with installations you care about.\nFor now it won't run 'out.sh' automatically. Do so manually only after you've verified it's correct\nI'm not responsible if it breaks anything\n\n</b>")
+		label.set_markup("<b>\n\nThis is pre-release software. It's not ready for use on systems with installations you care about. For now it won't run 'out.sh' automatically. Do so manually only after you've verified it's correct. I'm not responsible if it breaks anything\n\n</b>")
+		label.set_line_wrap(True)
 		welcomepage.add(label)
 		interfaces = os.listdir("/sys/class/net")
 		print("List of network cards: " + str(interfaces))
@@ -67,12 +73,13 @@ class installer(gtk.Window):
 			print interface
 			cards = open("/sys/class/net/" + interface + "/operstate", "r")
 			if cards.read().strip() == "up":
-				print("Found a working connection")
+				print("Found a working connection!")
+				print("")
 				label = gtk.Label()
 				label.set_markup("You're connected to the internet. Hooray.")
 				break
 			if cards.read().strip() != "up":
-				print ("it appears to be down")
+				print ("it appears to be down :(")
 				label = gtk.Label()
 				label.set_markup("<b>You don't appear to be connected to the internet.</b>")
 		welcomepage.add(label)
@@ -80,10 +87,8 @@ class installer(gtk.Window):
 		helpbox = gtk.Box()
 		welcomepage.pack_end(helpbox, True, False, padding=6)
 		help = gtk.LinkButton("https://github.com/collinthegeek/Akita/issues/new", label="Help!")
-
 		helpbox.pack_start(help, True, False, padding=6)
 		github = gtk.LinkButton("https://github.com/collinthegeek/Akita", label="Github")
-
 		helpbox.pack_end(github, True, False, padding=6)
 		
 	
@@ -102,7 +107,6 @@ class installer(gtk.Window):
 		global drive1
 		drive1 = gtk.RadioButton("/dev/sda")
 		drivebox.add(drive1)
-		
 		global drive2
 		drive2 = gtk.RadioButton(group=drive1, label="/dev/sdb")
 		drivebox.add(drive2)
@@ -110,7 +114,6 @@ class installer(gtk.Window):
 		global ext3
 		ext3 = gtk.RadioButton("ext3")
 		schemebox.add(ext3)
-		
 		global ext4
 		ext4 = gtk.RadioButton(group=ext3, label="ext4")
 		schemebox.add(ext4)
@@ -170,41 +173,41 @@ class installer(gtk.Window):
 		softwarebook.set_tab_pos(gtk.PositionType.LEFT)
 		softwarepage.pack_end(softwarebook, True, True, padding=5)
 		
-		mediapage = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
-		pagelabel = gtk.Label("Page 1")
-		mediapage.add(pagelabel)
+		mediatab = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
+		tablabel = gtk.Label("Media")
+		mediatab.add(tablabel)
 		
-		netpage = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
-		pagelabel = gtk.Label("Page 2")
-		netpage.add(pagelabel)
+		nettab = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
+		tablabel = gtk.Label("Internet")
+		nettab.add(tablabel)
 		global firefox
 		firefox = gtk.CheckButton("firefox")
-		netpage.add(firefox)
+		nettab.add(firefox)
 		packages.append(firefox)
 		
-		productivitypage = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
-		pagelabel = gtk.Label("Page 3")
-		productivitypage.add(pagelabel)
+		productivitytab = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
+		tablabel = gtk.Label("Productivity")
+		productivitytab.add(tablabel)
 		
-		gamespage = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
-		pagelabel = gtk.Label("Page 4")
-		gamespage.add(pagelabel)
+		gamestab = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
+		tablabel = gtk.Label("Games")
+		gamestab.add(tablabel)
 		
-		graphicspage = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
-		pagelabel = gtk.Label("Page 5")
-		graphicspage.add(pagelabel)
+		graphicstab = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
+		tablabel = gtk.Label("Graphics")
+		graphicstab.add(tablabel)
 		
-		devtoolspage = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
-		pagelabel = gtk.Label("Page 6")
-		devtoolspage.add(pagelabel)
+		devtoolstab = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
+		tablabel = gtk.Label("Developer Tools")
+		devtoolstab.add(tablabel)
 		
-		educationpage = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
-		pagelabel = gtk.Label("Page 7")
-		educationpage.add(pagelabel)
+		educationtab = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
+		tablabel = gtk.Label("Education")
+		educationtab.add(tablabel)
 		
-		utilitiespage = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
-		pagelabel = gtk.Label("Page 8")
-		utilitiespage.add(pagelabel)
+		utilitiestab = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
+		tablabel = gtk.Label("Utilites")
+		utilitiestab.add(tablabel)
 		
 		media = gtk.Label("Media")
 		net = gtk.Label("Internet")
@@ -214,14 +217,14 @@ class installer(gtk.Window):
 		devtools = gtk.Label("Dev Tools")
 		education = gtk.Label("Education")
 		utilites = gtk.Label("Utilites")
-		softwarebook.append_page(mediapage, media)
-		softwarebook.append_page(netpage, net)
-		softwarebook.append_page(productivitypage, productivity)
-		softwarebook.append_page(gamespage, games)
-		softwarebook.append_page(graphicspage, graphics)
-		softwarebook.append_page(devtoolspage, devtools)
-		softwarebook.append_page(educationpage, education)
-		softwarebook.append_page(utilitiespage, utilites)
+		softwarebook.append_page(mediatab, media)
+		softwarebook.append_page(nettab, net)
+		softwarebook.append_page(productivitytab, productivity)
+		softwarebook.append_page(gamestab, games)
+		softwarebook.append_page(graphicstab, graphics)
+		softwarebook.append_page(devtoolstab, devtools)
+		softwarebook.append_page(educationtab, education)
+		softwarebook.append_page(utilitiestab, utilites)
 		
 		
 
@@ -381,6 +384,10 @@ class installer(gtk.Window):
 			
 		out.close()
 		#os.system("bash out.sh")
+		print("")
+		print("")
+		print("")
+		print("Now open 'out.sh' in your favorite editor and make sure it's correct before running it. You've been warned")
 		gtk.main_quit()
 
 	def backbutton(self, button):
