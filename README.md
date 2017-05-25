@@ -17,7 +17,3 @@ Here's a screenshot of the first screen, Everything's changing on a daily basis 
 ##### Copyright (C) 2017 Collin Norwood
 
 Copying, modification, and distribution of the entire contents of this repository are permitted in any medium, provided this notice is preserved.
-
-Icon by the wonderful [Patryk Michalik](https://plus.google.com/u/0/+PatrykMichalik2003)
-
-Read LICENSE. It's pretty funny (rms)
