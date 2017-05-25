@@ -84,7 +84,7 @@ class installer(gtk.Window):
 		welcomelabel.set_markup("<b>This will let you pick keyboard layouts</b>")
 		keyboardpage.add(welcomelabel)
 
-		softwarepage = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=10)
+		softwarepage = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
 		welcomelabel = gtk.Label()
 		welcomelabel.set_markup("<b>Chose some packages:</b>")
 		softwarepage.add(welcomelabel)
@@ -94,57 +94,58 @@ class installer(gtk.Window):
 		softwarebook.set_tab_pos(gtk.PositionType.LEFT)
 		softwarepage.pack_end(softwarebook, True, True, padding=5)
 		
-		page01 = gtk.Box()
+		mediapage = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
 		pagelabel = gtk.Label("Page 1")
-		page01.add(pagelabel)
+		mediapage.add(pagelabel)
 		
-		page02 = gtk.Box()
+		netpage = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
 		pagelabel = gtk.Label("Page 2")
-		page02.add(pagelabel)
-		
-		page03 = gtk.Box()
-		pagelabel = gtk.Label("Page 3")
-		page03.add(pagelabel)
-		
-		page04 = gtk.Box()
-		pagelabel = gtk.Label("Page 4")
-		page04.add(pagelabel)
-		
-		page05 = gtk.Box()
-		pagelabel = gtk.Label("Page 5")
-		page05.add(pagelabel)
-		
-		page1 = gtk.Label("page1")
-		page2 = gtk.Label("page2")
-		page3 = gtk.Label("page3")
-		page4 = gtk.Label("page4")
-		page5 = gtk.Label("page5")
-		softwarebook.append_page(page01, page1)
-		softwarebook.append_page(page02, page2)
-		softwarebook.append_page(page03, page3)
-		softwarebook.append_page(page04, page4)
-		softwarebook.append_page(page05, page5)
-
-		
-		'''global firefox
+		netpage.add(pagelabel)
+		global firefox
 		firefox = gtk.CheckButton("firefox")
-		softwarepage.add(firefox)
+		netpage.add(firefox)
 		packages.append(firefox)
 		
-		global gedit
-		gedit = gtk.CheckButton("gedit")
-		softwarepage.add(gedit)
-		packages.append(gedit)
+		productivitypage = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
+		pagelabel = gtk.Label("Page 3")
+		productivitypage.add(pagelabel)
 		
-		global steam
-		steam = gtk.CheckButton("steam")
-		softwarepage.add(steam)
-		packages.append(steam)
+		gamespage = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
+		pagelabel = gtk.Label("Page 4")
+		gamespage.add(pagelabel)
 		
-		global kdenlive
-		kdenlive = gtk.CheckButton("kdenlive")
-		softwarepage.add(kdenlive)
-		packages.append(kdenlive)'''
+		graphicspage = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
+		pagelabel = gtk.Label("Page 5")
+		graphicspage.add(pagelabel)
+		
+		devtoolspage = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
+		pagelabel = gtk.Label("Page 6")
+		devtoolspage.add(pagelabel)
+		
+		educationpage = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
+		pagelabel = gtk.Label("Page 7")
+		educationpage.add(pagelabel)
+		
+		utilitiespage = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
+		pagelabel = gtk.Label("Page 8")
+		utilitiespage.add(pagelabel)
+		
+		media = gtk.Label("Media")
+		net = gtk.Label("Internet")
+		productivity = gtk.Label("Productivity")
+		games = gtk.Label("Games")
+		graphics= gtk.Label("Graphics")
+		devtools = gtk.Label("Dev Tools")
+		education = gtk.Label("Education")
+		utilites = gtk.Label("Utilites")
+		softwarebook.append_page(mediapage, media)
+		softwarebook.append_page(netpage, net)
+		softwarebook.append_page(productivitypage, productivity)
+		softwarebook.append_page(gamespage, games)
+		softwarebook.append_page(graphicspage, graphics)
+		softwarebook.append_page(devtoolspage, devtools)
+		softwarebook.append_page(educationpage, education)
+		softwarebook.append_page(utilitiespage, utilites)
 
 
 		partitionpage = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
