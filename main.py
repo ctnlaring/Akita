@@ -13,6 +13,7 @@ from subprocess import call
 import os
 os.system("rm out.sh")
 os.system("echo 'echo installing' > out.sh")
+print("This will show some debug output")
 
 class installer(gtk.Window):
 
@@ -59,16 +60,20 @@ class installer(gtk.Window):
 		label.set_markup("<b>\n\nThis is pre-release software. It's not ready for use on systems with installations you care about.\nFor now it won't run 'out.sh' automatically. Do so manually only after you've verified it's correct\nI'm not responsible if it breaks anything\n\n</b>")
 		welcomepage.add(label)
 		interfaces = os.listdir("/sys/class/net")
+		print("List of network cards: " + str(interfaces))
 		for interface in interfaces:
+			print("Checking network card:")
+			print interface
 			cards = open("/sys/class/net/" + interface + "/operstate", "r")
 			if cards.read().strip() == "up":
+				print("Found a working connection")
 				label = gtk.Label()
 				label.set_markup("<b>You're connected to the internet. Hooray.</b>")
 				break
 			if cards.read().strip() != "up":
+				print ("it appears to be down")
 				label = gtk.Label()
 				label.set_markup("<b>You don't appear to be connected to the internet.</b>")
-				break
 		welcomepage.add(label)
 		cards.close()
 		
@@ -213,6 +218,7 @@ class installer(gtk.Window):
 		mainbook.next_page()
 		
 	def write(self, button):
+		print("generating install script")
 		out = open("out.sh", "a");
 		
 		#Format the drive
@@ -224,56 +230,97 @@ class installer(gtk.Window):
 			out.write("sudo mkfs.ext4 NO NO /dev/sda\n")
 		if ext4.get_active() & drive2.get_active():
 			out.write("sudo mkfs.ext4 NO NO /dev/sdb\n")
-
+		
+		out.write("echo ''\necho ''\necho '################################################################################'\necho ''\necho ''\n")
+		
 		#Mount
 		if drive1.get_active():
 			out.write("mount /dev/sda1 /mnt\n")
 		if drive2.get_active():
 			out.write("mount /dev/sdb1 /mnt\n")
+			
+		out.write("echo ''\necho ''\necho '################################################################################'\necho ''\necho ''\n")
 
 		#Arch stuff
 		out.write("pacstrap -i /mnt base base-devel\n")
+
+		out.write("echo ''\necho ''\necho '################################################################################'\necho ''\necho ''\n")
+
 		out.write("genfstab -U -p /mnt >> /mnt/etc/fstab\n")
 		out.write("arch-chroot /mnt echo 'en_US.UTF-8 UTF-8' > /etc/locale.gen\n")
 		out.write("arch-chroot /mnt locale-gen\n")
+		
+		out.write("echo ''\necho ''\necho '################################################################################'\necho ''\necho ''\n")
+
 		out.write("arch-chroot /mnt echo LANG=en_US.UTF-8 > /etc/locale.conf\n")
 		out.write("arch-chroot /mnt EXPORT LANG=en_US.UTF-8\n")
 		out.write("arch-chroot /mnt ln -s /usr/share/zoneinfo/" + str(zone.get_active_text()) + " /etc/localtime\n")
+		
+		out.write("echo ''\necho ''\necho '################################################################################'\necho ''\necho ''\n")
+
 		out.write("arch-chroot /mnt hwclock --systohc --utc\n")
+		
+		out.write("echo ''\necho ''\necho '################################################################################'\necho ''\necho ''\n")
+
 		out.write("arch-chroot /mnt echo " + hostname.get_text().strip()+ " > /etc/hostname\n")
 		#out.write("arch-chroot /mnt echo 'A MAGICAL COMMAND THAT PUTS THE HOSTNAME IN /ETC/HOSTS'\n")
+
+		out.write("echo ''\necho ''\necho '################################################################################'\necho ''\necho ''\n")
 		
 		#Make sure a root password was entered
 		if rootpassword.get_text().strip() == "":
 			raise ValueError("You didn't enter a root password")
 		else:
 			out.write("arch-chroot /mnt passwd root " + rootpassword.get_text().strip() + "\n")
+
+		out.write("echo ''\necho ''\necho '################################################################################'\necho ''\necho ''\n")
 			
 		out.write("arch-chroot /mnt pacman -S grub\n")
+		
+		out.write("echo ''\necho ''\necho '################################################################################'\necho ''\necho ''\n")
+
 		out.write("arch-chroot /mnt grub-install --target=i386-pc --recheck /dev/sda\n")
+		
+		out.write("echo ''\necho ''\necho '################################################################################'\necho ''\necho ''\n")
+
 		out.write("arch-chroot /mnt grub-mkconfig -o /boot/grub/grub.cfg\n")
+
+		out.write("echo ''\necho ''\necho '################################################################################'\necho ''\necho ''\n")
+
 		#out.write("arch-chroot /mnt pacman -S liri-*\n")
 		out.write("arch-chroot /mnt pacman -S xorg-server xorg-xinit xorg-server-utils mesa\n")
 		out.write("arch-chroot /mnt pacman -S xorg-twm xorg-xclock xterm\n")
 		out.write("arch-chroot /mnt pacman -S lxde\n")
 		out.write("arch-chroot /mnt systemctl enable lxdm\n")
 				
+		out.write("echo ''\necho ''\necho '################################################################################'\necho ''\necho ''\n")
+				
 		if username.get_text().strip() == "":
 			raise ValueError("You didn't enter a username")
 		else:
 			out.write("arch-chroot /mnt useradd -m -G wheel -s /bin/bash " + username.get_text().strip()+ "\n")
+		
+		out.write("echo ''\necho ''\necho '################################################################################'\necho ''\necho ''\n")
+
 		if password.get_text().strip() == "":
 			raise ValueError("You didn't enter a user password")
 		else:
 			out.write("arch-chroot /mnt passwd " + username.get_text().strip()+  " " + password.get_text().strip()+ "\n")
+		
+		out.write("echo ''\necho ''\necho '################################################################################'\necho ''\necho ''\n")
+		
 		#out.write("arch-chroot /mnt visudo things\n")
 		
 		for package in packages:
 			if package.get_active() == True:
 				out.write("sudo pacman -S install " + package.get_label() + "\n")
+				out.write("echo ''\necho ''\necho '################################################################################'\necho ''\necho ''\n")
 			else:
 				out.write("echo 'skipping " + package.get_label() + "'\n")
-			
+				out.write("echo ''\necho ''\necho '################################################################################'\necho ''\necho ''\n")
+		
+		out.write("echo ''\necho ''\necho '################################################################################'\necho ''\necho ''\n")
+
 		out.write("echo 'Done!'")
 			
 		out.close()
