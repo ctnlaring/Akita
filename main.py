@@ -148,7 +148,7 @@ class installer(gtk.Window):
 		zone.append_text("US/Central")
 		zone.append_text("US/Eastern")
 		zone.append_text("gmt")
-		zone.set_active(1)
+		zone.set_active(0)
 		timezonepage.add(zone)
 		namelabel = gtk.Label("Enter a hostname:")
 		timezonepage.add(namelabel)
