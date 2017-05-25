@@ -4,7 +4,7 @@
 
 A graphical arch linux installer in python/pygtk
 
-Installing arch linux is pretty simple. But it's not pretty. This tool will hopefully make it prettier than existing solutions (calamares, arch-anywhere, cnchi, etc.) While also adding some helpful features like page to download common software etc.
+Installing arch linux is pretty simple. But it's not pretty. This tool will hopefully make it prettier than existing solutions (calamares, arch-anywhere, cnchi, etc.) While also adding some helpful features like page to download common software.
 
 Currently it can generate a script (out.sh) that  will ocasionally work without any modification. Right now you should carefully review out.sh and make sure everything's correct.
 
