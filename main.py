@@ -13,16 +13,17 @@ from subprocess import call
 import os
 os.system("rm out.sh")
 os.system("echo 'echo installing' > out.sh")
-print("This will show some debug output")
+print("Welcome to Akita")
+print("This terminal will show some debug output")
 
 class installer(gtk.Window):
 
 	def __init__(self):
 
-		gtk.Window.__init__(self, title="Arch Installer")
+		gtk.Window.__init__(self, title="Akita")
 		self.set_border_width(10)
 		self.set_icon_from_file("icon.png")
-		self.set_wmclass ("Arch Installer", "Arch Installer")
+		self.set_wmclass ("Akita", "Akita")
 		box = gtk.Box(orientation=gtk.Orientation.VERTICAL)
 		self.add(box)
 		global mainbook
@@ -48,7 +49,7 @@ class installer(gtk.Window):
 
 		welcomepage = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
 		welcomelabel = gtk.Label()
-		welcomelabel.set_markup("<b>Welcome to the thing</b>")
+		welcomelabel.set_markup("<b>Welcome to Akita</b>")
 		welcomepage.add(welcomelabel)
 		langlabel = gtk.Label("Please choose a language for use during the installation (currently english only)")
 		welcomepage.add(langlabel)
