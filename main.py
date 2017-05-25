@@ -85,9 +85,6 @@ class installer(gtk.Window):
 		keyboardpage.add(welcomelabel)
 
 		softwarepage = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
-		welcomelabel = gtk.Label()
-		welcomelabel.set_markup("<b>Chose some packages:</b>")
-		softwarepage.add(welcomelabel)
 		global packages
 		packages = [];
 		softwarebook = gtk.Notebook()
