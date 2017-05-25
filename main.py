@@ -46,7 +46,8 @@ class installer(gtk.Window):
 
 
 		welcomepage = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
-		welcomelabel = gtk.Label("Welcome to the thing")
+		welcomelabel = gtk.Label()
+		welcomelabel.set_markup("<b>Welcome to the thing</b>")
 		welcomepage.add(welcomelabel)
 		langlabel = gtk.Label("Please choose a language for use during the installation (currently english only)")
 		welcomepage.add(langlabel)
@@ -54,27 +55,32 @@ class installer(gtk.Window):
 		lang.append_text("English")
 		lang.set_active(0)
 		welcomepage.add(lang)
-		label = gtk.Label("\n\nThis is pre-release software. It's not ready for use on systems with installations you care about.\nFor now it won't run 'out.sh' automatically. Do so manually only after you've verified it's correct\nI'm not responsible if it breaks anything\n\n")
+		label = gtk.Label()
+		label.set_markup("<b>\n\nThis is pre-release software. It's not ready for use on systems with installations you care about.\nFor now it won't run 'out.sh' automatically. Do so manually only after you've verified it's correct\nI'm not responsible if it breaks anything\n\n</b>")
 		welcomepage.add(label)
 		interfaces = os.listdir("/sys/class/net")
 		for interface in interfaces:
 			cards = open("/sys/class/net/" + interface + "/operstate", "r")
 			if cards.read().strip() == "up":
-				label = gtk.Label("You're connected to the internet. Hooray.")
+				label = gtk.Label()
+				label.set_markup("<b>You're connected to the internet. Hooray.</b>")
 				break
 			if cards.read().strip() != "up":
-				label = gtk.Label("Connect to the internet")
+				label = gtk.Label()
+				label.set_markup("<b>You don't appear to be connected to the internet.</b>")
 				break
 		welcomepage.add(label)
 		cards.close()
 		
 
 		keyboardpage = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
-		welcomelabel = gtk.Label("This will let you pick keyboard layouts")
+		welcomelabel = gtk.Label()
+		welcomelabel.set_markup("<b>This will let you pick keyboard layouts</b>")
 		keyboardpage.add(welcomelabel)
 
 		softwarepage = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
-		welcomelabel = gtk.Label("Chose some packages:")
+		welcomelabel = gtk.Label()
+		welcomelabel.set_markup("<b>Chose some packages:</b>")
 		softwarepage.add(welcomelabel)
 		global packages
 		packages = [];
@@ -100,25 +106,9 @@ class installer(gtk.Window):
 		packages.append(kdenlive)
 
 
-
-		displaypage = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
-		welcomelabel = gtk.Label("Chose a display manager:")
-		displaypage.add(welcomelabel)
-				
-		global wayland
-		wayland = gtk.RadioButton("wayland")
-		displaypage.add(wayland)
-		packages.append(wayland)
-		
-		global x11
-		x11 = gtk.RadioButton(group=wayland, label="x11")
-		displaypage.add(x11)
-		packages.append(x11)
-
-
-
 		partitionpage = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
-		welcomelabel = gtk.Label("Choose your partitions")
+		welcomelabel = gtk.Label()
+		welcomelabel.set_markup("<b>Choose your partitions</b>")
 		partitionpage.pack_start(welcomelabel, False, False, padding=5)
 		partbox = gtk.Box()
 		partitionpage.pack_end(partbox, True, True, padding=5)
@@ -145,7 +135,8 @@ class installer(gtk.Window):
 		
 		
 		timezonepage = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
-		welcomelabel = gtk.Label("Pick a time zone.")
+		welcomelabel = gtk.Label()
+		welcomelabel.set_markup("<b>Pick a time zone.</b>")
 		timezonepage.add(welcomelabel)
 		global zone
 		zone = gtk.ComboBoxText()
@@ -180,6 +171,13 @@ class installer(gtk.Window):
 		userpage.add(password)
 
 
+		summarypage = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
+		welcomelabel = gtk.Label()
+		welcomelabel.set_markup("<b>Here's what I'm going to do:</b>\n\nImagine a list of all the commands")
+		summarypage.add(welcomelabel)
+		
+	
+
 		finalpage = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
 		welcomelabel = gtk.Label("I'm now going to attempt to generate an install script based on the options you selected.\nI won't run it automatically for now. Do so manually only after careful review.")
 		finalpage.add(welcomelabel)
@@ -199,14 +197,15 @@ class installer(gtk.Window):
 		users = gtk.Label("Users")
 		finish = gtk.Label("Finish")
 		timezone = gtk.Label("Time Zone")
+		summary = gtk.Label("Summary")
 		keyboard = gtk.Label("Keyboard layout")
 		mainbook.append_page(welcomepage, welcome)
 		mainbook.append_page(partitionpage, disks)
 		mainbook.append_page(softwarepage, software)
-		mainbook.append_page(displaypage, displaymanager)
 		mainbook.append_page(keyboardpage, keyboard)
 		mainbook.append_page(timezonepage, timezone)
 		mainbook.append_page(userpage, users)
+		mainbook.append_page(summarypage, summary)
 		mainbook.append_page(finalpage, finish)
 
 
