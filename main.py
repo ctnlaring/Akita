@@ -104,18 +104,19 @@ class installer(gtk.Window):
 		partbox.add(drivebox)
 		partbox.add(schemebox)
 		
-		
-		#This code is written poorly
+
 		drives = os.listdir("/dev")
 		runs = 1
+		global parts
 		parts = {}
 		
 		for drive in drives:
 			if drives[drives.index(drive)][0]=="s" and drives[drives.index(drive)][1]=="d":
 				if runs == 1:
 					runs = 2
+					global firstdrive
 					firstdrive = gtk.RadioButton(label = "/dev/" + drive)
-					firstdrive.set_active(True)
+					drivebox.add(firstdrive)
 				else:
 					parts["/dev/" + drive] = gtk.RadioButton(group=firstdrive, label = "/dev/" + drive)
 					drivebox.add(parts["/dev/" + drive])
@@ -283,42 +284,28 @@ class installer(gtk.Window):
 	def write(self, button):
 		print("generating install script")
 		out = open("out.sh", "a");
-		
-		parts = {}
+		runs = 1
 		drives = os.listdir("/dev")
 		for drive in drives:
 			if drives[drives.index(drive)][0]=="s" and drives[drives.index(drive)][1]=="d":
+				print drive
 				part = "/dev/" + drive
-				'''This doesnt work because part is a string.. Dont know how to fix
-				
-				if part.get_active():
-					out.write("sudo mkfs.ext4 " + part)
-					
-					
-					'''
-		
 
-		#Format the drive
-		'''if ext3.get_active() & drive1.get_active():
-			out.write("sudo mkfs.ext3 NO NO /dev/sda\n")
-		if ext3.get_active() & drive2.get_active():
-			out.write("sudo mkfs.ext3 NO NO /dev/sdb\n")
-		if ext4.get_active() & drive1.get_active():
-			out.write("sudo mkfs.ext4 NO NO /dev/sda\n")
-		if ext4.get_active() & drive2.get_active():
-			out.write("sudo mkfs.ext4 NO NO /dev/sdb\n")
-		
-		out.write("echo ''\necho ''\necho '################################################################################'\necho ''\necho ''\n")
-		
-		#Mount
-		if drive1.get_active():
-			out.write("mount /dev/sda1 /mnt\n")
-		if drive2.get_active():
-			out.write("mount /dev/sdb1 /mnt\n")
+				if runs == 1:
+					print("first run")
+					if firstdrive.get_active():
+							out.write("sudo mkfs.ext4 " + firstdrive.get_label() + "\n")
+							out.write("sudo mount " + firstdrive.get_label() + " /mnt\n")
+					runs = 2
+				else:
+					print parts[part]
+					if parts[part].get_active():
+						out.write("sudo mkfs.ext4 " + part + "\n")
+						out.write("sudo mount " + part + " /mnt\n")
+
 			
 		out.write("echo ''\necho ''\necho '################################################################################'\necho ''\necho ''\n")
 
-		#Arch stuff
 		out.write("pacstrap -i /mnt base base-devel\n")
 
 		out.write("echo ''\necho ''\necho '################################################################################'\necho ''\necho ''\n")
@@ -409,10 +396,8 @@ class installer(gtk.Window):
 		out.close()
 		#os.system("bash out.sh")
 		print("")
-		print("")
-		print("")
 		print("Now open 'out.sh' in your favorite editor and make sure it's correct before running it. You've been warned")
-		gtk.main_quit()'''
+		gtk.main_quit()
 
 	def backbutton(self, button):
 		mainbook.prev_page()
