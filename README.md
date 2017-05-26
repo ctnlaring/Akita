@@ -10,6 +10,11 @@ Currently it can generate a script (out.sh) that  will ocasionally work without 
 Install [Liri's material gtk theme](https://www.github.com/lirios/material-gtk-theme) to make it look nice
 
 
+
+
 ##### Copyright (C) 2017 Collin Norwood
 
+Icon by [Patryk Michalik](https://plus.google.com/u/0/+PatrykMichalik2003)
+
 Copying, modification, and distribution of the entire contents of this repository are permitted in any medium, provided this notice is preserved.
+
