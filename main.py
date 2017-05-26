@@ -108,25 +108,19 @@ class installer(gtk.Window):
 		#This code is written poorly
 		drives = os.listdir("/dev")
 		runs = 1
-		global partitions
-		partitions = []
+		parts = {}
+		
 		for drive in drives:
 			if drives[drives.index(drive)][0]=="s" and drives[drives.index(drive)][1]=="d":
-				partitions.append("/dev/" + drive)
-		partitions.reverse()
-		
-			
-		for partition in partitions:
-			print partition
-			
-		'''if drives[drives.index(drive)][0]=="s" and drives[drives.index(drive)][1]=="d":
 				if runs == 1:
 					runs = 2
-					firstdrive = gtk.RadioButton("/dev/" + drive)
-					
-				disk = gtk.RadioButton(group=firstdrive, label="/dev/" + drive)
-				drivebox.add(disk)
-		'''
+					firstdrive = gtk.RadioButton(label = "/dev/" + drive)
+					firstdrive.set_active(True)
+				else:
+					parts["/dev/" + drive] = gtk.RadioButton(group=firstdrive, label = "/dev/" + drive)
+					drivebox.add(parts["/dev/" + drive])
+
+
 		global ext3
 		ext3 = gtk.RadioButton("ext3")
 		schemebox.add(ext3)
@@ -290,15 +284,14 @@ class installer(gtk.Window):
 		print("generating install script")
 		out = open("out.sh", "a");
 		
-		
-		'''drives = os.listdir("/dev")
-		runs = 1
+		parts = {}
+		drives = os.listdir("/dev")
 		for drive in drives:
 			if drives[drives.index(drive)][0]=="s" and drives[drives.index(drive)][1]=="d":
-				if drive.get_active():
-					print(drive + "is active")
-				drivebox.add(drive)'''
+				part = "/dev/" + drive
+
 		
+
 		#Format the drive
 		'''if ext3.get_active() & drive1.get_active():
 			out.write("sudo mkfs.ext3 NO NO /dev/sda\n")
