@@ -54,7 +54,7 @@ class installer(gtk.Window):
 		icon.set_from_file("icon.png")
 		topbox.add(icon)
 		welcomelabel = gtk.Label()
-		welcomelabel.set_markup("<span font_size='x-large'><b>Welcome to Akita</b> - v0.6</span>")
+		welcomelabel.set_markup("<span font_size='x-large'><b>   Welcome to Akita</b> - v0.6</span>")
 		topbox.add(welcomelabel)
 		'''langlabel = gtk.Label("Please choose a language for use during the installation (currently english only)")
 		welcomepage.add(langlabel)
