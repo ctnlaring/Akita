@@ -289,7 +289,13 @@ class installer(gtk.Window):
 		for drive in drives:
 			if drives[drives.index(drive)][0]=="s" and drives[drives.index(drive)][1]=="d":
 				part = "/dev/" + drive
-
+				'''This doesnt work because part is a string.. Dont know how to fix
+				
+				if part.get_active():
+					out.write("sudo mkfs.ext4 " + part)
+					
+					
+					'''
 		
 
 		#Format the drive
