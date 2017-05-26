@@ -1,6 +1,6 @@
 # Akita 
 
-![Icon](https://github.com/Collinthegeek/Akita/blob/master/icon.png) 
+![Icon](icon.png) 
 
 Installing arch linux is pretty simple. But it's not pretty. This tool will hopefully make it prettier than existing solutions (calamares, arch-anywhere, cnchi, etc.) While also adding some helpful features like page to download common software. (It's also much lighter)
 
