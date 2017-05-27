@@ -178,11 +178,7 @@ class installer(gtk.Window):
 		
 		global media
 		media = {
-		'firefox': gtk.CheckButton("Firefox"),
-		'tor': gtk.CheckButton("Tor"),
-		'chrome': gtk.CheckButton("Chrome"),
-		'pidgin': gtk.CheckButton("Pidgin"),
-		'hangouts': gtk.CheckButton("Hangouts"),
+		'vlc': gtk.CheckButton("VLC")
 		}
 		
 		global internet
@@ -192,54 +188,37 @@ class installer(gtk.Window):
 		'chrome': gtk.CheckButton("Chrome"),
 		'pidgin': gtk.CheckButton("Pidgin"),
 		'hangouts': gtk.CheckButton("Hangouts"),
+		'dropbox': gtk.CheckButton("Dropbox"),
+		'drive': gtk.CheckButton("Google Drive")
 		}
 		global productivity
 		productivity = {
-		'firefox': gtk.CheckButton("Firefox"),
-		'tor': gtk.CheckButton("Tor"),
-		'chrome': gtk.CheckButton("Chrome"),
-		'pidgin': gtk.CheckButton("Pidgin"),
-		'hangouts': gtk.CheckButton("Hangouts"),
+		'libreoffice': gtk.CheckButton("LibreOffice")
 		}
 		global games
 		games = {
-		'firefox': gtk.CheckButton("Firefox"),
-		'tor': gtk.CheckButton("Tor"),
-		'chrome': gtk.CheckButton("Chrome"),
-		'pidgin': gtk.CheckButton("Pidgin"),
-		'hangouts': gtk.CheckButton("Hangouts"),
+
 		}
 		global graphics
 		graphics = {
-		'firefox': gtk.CheckButton("Firefox"),
-		'tor': gtk.CheckButton("Tor"),
-		'chrome': gtk.CheckButton("Chrome"),
-		'pidgin': gtk.CheckButton("Pidgin"),
-		'hangouts': gtk.CheckButton("Hangouts"),
+		'gimp': gtk.CheckButton("Gimp")
 		}
 		global development
 		development = {
-		'firefox': gtk.CheckButton("Firefox"),
-		'tor': gtk.CheckButton("Tor"),
-		'chrome': gtk.CheckButton("Chrome"),
-		'pidgin': gtk.CheckButton("Pidgin"),
-		'hangouts': gtk.CheckButton("Hangouts"),
+		'emacs': gtk.CheckButton("Emacs"),
+		'nano': gtk.CheckButton("Nano")
 		}
 		global education
 		education = {
-		'firefox': gtk.CheckButton("Firefox"),
-		'tor': gtk.CheckButton("Tor"),
-		'chrome': gtk.CheckButton("Chrome"),
-		'pidgin': gtk.CheckButton("Pidgin"),
-		'hangouts': gtk.CheckButton("Hangouts"),
+
 		}
 		global utilities
 		utilities = {
-		'firefox': gtk.CheckButton("Firefox"),
-		'tor': gtk.CheckButton("Tor"),
-		'chrome': gtk.CheckButton("Chrome"),
-		'pidgin': gtk.CheckButton("Pidgin"),
-		'hangouts': gtk.CheckButton("Hangouts"),
+		'synapse': gtk.CheckButton("Synapse"),
+		'autokey': gtk.CheckButton("Autokey"),
+		'shotwell': gtk.CheckButton("Shotwell"),
+		'wine': gtk.CheckButton("Wine"),
+		'virtualbox': gtk.CheckButton("Virtualbox")
 		}
 
 
