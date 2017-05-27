@@ -174,6 +174,74 @@ class installer(gtk.Window):
 		password = gtk.Entry()
 		userpage.add(password)
 		
+		
+		
+		global media
+		media = {
+		'firefox': gtk.CheckButton("Firefox"),
+		'tor': gtk.CheckButton("Tor"),
+		'chrome': gtk.CheckButton("Chrome"),
+		'pidgin': gtk.CheckButton("Pidgin"),
+		'hangouts': gtk.CheckButton("Hangouts"),
+		}
+		
+		global internet
+		internet = {
+		'firefox': gtk.CheckButton("Firefox"),
+		'tor': gtk.CheckButton("Tor"),
+		'chrome': gtk.CheckButton("Chrome"),
+		'pidgin': gtk.CheckButton("Pidgin"),
+		'hangouts': gtk.CheckButton("Hangouts"),
+		}
+		global productivity
+		productivity = {
+		'firefox': gtk.CheckButton("Firefox"),
+		'tor': gtk.CheckButton("Tor"),
+		'chrome': gtk.CheckButton("Chrome"),
+		'pidgin': gtk.CheckButton("Pidgin"),
+		'hangouts': gtk.CheckButton("Hangouts"),
+		}
+		global games
+		games = {
+		'firefox': gtk.CheckButton("Firefox"),
+		'tor': gtk.CheckButton("Tor"),
+		'chrome': gtk.CheckButton("Chrome"),
+		'pidgin': gtk.CheckButton("Pidgin"),
+		'hangouts': gtk.CheckButton("Hangouts"),
+		}
+		global graphics
+		graphics = {
+		'firefox': gtk.CheckButton("Firefox"),
+		'tor': gtk.CheckButton("Tor"),
+		'chrome': gtk.CheckButton("Chrome"),
+		'pidgin': gtk.CheckButton("Pidgin"),
+		'hangouts': gtk.CheckButton("Hangouts"),
+		}
+		global development
+		development = {
+		'firefox': gtk.CheckButton("Firefox"),
+		'tor': gtk.CheckButton("Tor"),
+		'chrome': gtk.CheckButton("Chrome"),
+		'pidgin': gtk.CheckButton("Pidgin"),
+		'hangouts': gtk.CheckButton("Hangouts"),
+		}
+		global education
+		education = {
+		'firefox': gtk.CheckButton("Firefox"),
+		'tor': gtk.CheckButton("Tor"),
+		'chrome': gtk.CheckButton("Chrome"),
+		'pidgin': gtk.CheckButton("Pidgin"),
+		'hangouts': gtk.CheckButton("Hangouts"),
+		}
+		global utilities
+		utilities = {
+		'firefox': gtk.CheckButton("Firefox"),
+		'tor': gtk.CheckButton("Tor"),
+		'chrome': gtk.CheckButton("Chrome"),
+		'pidgin': gtk.CheckButton("Pidgin"),
+		'hangouts': gtk.CheckButton("Hangouts"),
+		}
+
 
 
 		softwarepage = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
@@ -186,38 +254,50 @@ class installer(gtk.Window):
 		mediatab = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
 		tablabel = gtk.Label("Media")
 		mediatab.add(tablabel)
+		for app in media:
+			mediatab.add(media[app])
 		
 		nettab = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
 		tablabel = gtk.Label("Internet")
 		nettab.add(tablabel)
-		global firefox
-		firefox = gtk.CheckButton("firefox")
-		nettab.add(firefox)
-		packages.append(firefox)
+		for app in internet:
+			nettab.add(internet[app])
 		
 		productivitytab = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
 		tablabel = gtk.Label("Productivity")
 		productivitytab.add(tablabel)
+		for app in productivity:
+			productivitytab.add(productivity[app])
 		
 		gamestab = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
 		tablabel = gtk.Label("Games")
 		gamestab.add(tablabel)
+		for app in games:
+			gamestab.add(games[app])
 		
 		graphicstab = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
 		tablabel = gtk.Label("Graphics")
 		graphicstab.add(tablabel)
+		for app in graphics:
+			graphicstab.add(graphics[app])
 		
 		devtoolstab = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
 		tablabel = gtk.Label("Developer Tools")
 		devtoolstab.add(tablabel)
+		for app in development:
+			devtoolstab.add(development[app])
 		
 		educationtab = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
 		tablabel = gtk.Label("Education")
 		educationtab.add(tablabel)
+		for app in education:
+			educationtab.add(education[app])
 		
 		utilitiestab = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
 		tablabel = gtk.Label("Utilites")
 		utilitiestab.add(tablabel)
+		for app in utilities:
+			utilitiestab.add(utilities[app])
 		
 		media = gtk.Label("Media")
 		net = gtk.Label("Internet")
@@ -380,12 +460,12 @@ class installer(gtk.Window):
 		
 		#out.write("arch-chroot /mnt visudo things\n")
 		
-		for package in packages:
-			if package.get_active() == True:
-				out.write("sudo pacman -S install " + package.get_label() + "\n")
+		for app in internet:
+			if internet[app].get_active() == True:
+				out.write("sudo pacman -S install " + internet[app].get_label() + "\n")
 				out.write("echo ''\necho ''\necho '################################################################################'\necho ''\necho ''\n")
 			else:
-				out.write("echo 'skipping " + package.get_label() + "'\n")
+				out.write("echo 'skipping " + internet[app].get_label() + "'\n")
 				out.write("echo ''\necho ''\necho '################################################################################'\necho ''\necho ''\n")
 		
 		out.write("echo ''\necho ''\necho '################################################################################'\necho ''\necho ''\n")
