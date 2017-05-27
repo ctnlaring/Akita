@@ -62,7 +62,7 @@ class installer(gtk.Window):
 		lang.append_text("English")
 		lang.set_active(0)
 		welcomepage.add(lang)'''
-		label = gtk.Label(margin=6)
+		label = gtk.Label(margin=8)
 		label.set_markup("<span font_size='large'><b>\n\nThis is pre-release software. It's not ready for use on systems with installations you care about. For now it won't run 'out.sh' automatically. Do so manually only after you've verified it's correct. I'm not responsible if it breaks anything\n\n</b></span>")
 		label.set_line_wrap(True)
 		welcomepage.add(label)
@@ -131,7 +131,7 @@ class installer(gtk.Window):
 
 
 		keyboardpage = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
-		welcomelabel = gtk.Label()
+		welcomelabel = gtk.Label(margin=6)
 		welcomelabel.set_markup("<span font_size='x-large'><b>This will let you pick keyboard layouts</b></span>")
 		keyboardpage.add(welcomelabel)
 
@@ -158,20 +158,20 @@ class installer(gtk.Window):
 		
 		
 		userpage = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
-		welcomelabel = gtk.Label("Root password:")
+		welcomelabel = gtk.Label(margin_right=450, margin_left=12, margin_top=12, label="Root password:")
 		userpage.add(welcomelabel)
 		global rootpassword
-		rootpassword = gtk.Entry()
+		rootpassword = gtk.Entry(margin_right=450, margin_left=12, margin_top=12)
 		userpage.add(rootpassword)
-		info = gtk.Label("Username:")
+		info = gtk.Label(margin_right=450, margin_left=12, margin_top=12, label="Username:")
 		userpage.add(info)
 		global username
-		username = gtk.Entry()
+		username = gtk.Entry(margin_right=450, margin_left=12, margin_top=12)
 		userpage.add(username)
-		info = gtk.Label("Password:")
+		info = gtk.Label(margin_right=450, margin_left=12, margin_top=12, label="Password:")
 		userpage.add(info)
 		global password
-		password = gtk.Entry()
+		password = gtk.Entry(margin_right=450, margin_left=12, margin_top=12)
 		userpage.add(password)
 		
 		
@@ -299,7 +299,7 @@ class installer(gtk.Window):
 
 
 		summarypage = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
-		welcomelabel = gtk.Label()
+		welcomelabel = gtk.Label(margin=6)
 		welcomelabel.set_markup("<span font_size='x-large'><b>Summary:</b></span>")
 		summarypage.add(welcomelabel)
 		
