@@ -62,8 +62,8 @@ class installer(gtk.Window):
 		lang.append_text("English")
 		lang.set_active(0)
 		welcomepage.add(lang)'''
-		label = gtk.Label()
-		label.set_markup("<b>\n\nThis is pre-release software. It's not ready for use on systems with installations you care about. For now it won't run 'out.sh' automatically. Do so manually only after you've verified it's correct. I'm not responsible if it breaks anything\n\n</b>")
+		label = gtk.Label(margin=6)
+		label.set_markup("<span font_size='large'><b>\n\nThis is pre-release software. It's not ready for use on systems with installations you care about. For now it won't run 'out.sh' automatically. Do so manually only after you've verified it's correct. I'm not responsible if it breaks anything\n\n</b></span>")
 		label.set_line_wrap(True)
 		welcomepage.add(label)
 		interfaces = os.listdir("/sys/class/net")
@@ -94,8 +94,8 @@ class installer(gtk.Window):
 	
 		
 		partitionpage = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
-		welcomelabel = gtk.Label()
-		welcomelabel.set_markup("<b>Choose your partitions:</b>")
+		welcomelabel = gtk.Label(margin=6)
+		welcomelabel.set_markup("<span font_size='x-large'><b>Choose where to install:</b></span>")
 		partitionpage.add(welcomelabel)
 		partbox = gtk.Box()
 		partitionpage.pack_end(partbox, True, True, padding=5)
@@ -103,7 +103,6 @@ class installer(gtk.Window):
 		schemebox = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
 		partbox.add(drivebox)
 		partbox.add(schemebox)
-		
 
 		drives = os.listdir("/dev")
 		runs = 1
@@ -115,45 +114,45 @@ class installer(gtk.Window):
 				if runs == 1:
 					runs = 2
 					global firstdrive
-					firstdrive = gtk.RadioButton(label = "/dev/" + drive)
+					firstdrive = gtk.RadioButton(margin=5,label = "/dev/" + drive)
 					drivebox.add(firstdrive)
 				else:
-					parts["/dev/" + drive] = gtk.RadioButton(group=firstdrive, label = "/dev/" + drive)
+					parts["/dev/" + drive] = gtk.RadioButton(margin=5, group=firstdrive, label = "/dev/" + drive)
 					drivebox.add(parts["/dev/" + drive])
 
 
 		global ext3
-		ext3 = gtk.RadioButton("ext3")
+		ext3 = gtk.RadioButton(margin=6, label="ext3")
 		schemebox.add(ext3)
 		global ext4
-		ext4 = gtk.RadioButton(group=ext3, label="ext4")
+		ext4 = gtk.RadioButton(margin=5, group=ext3, label="ext4")
 		schemebox.add(ext4)
 		
 
 
 		keyboardpage = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
 		welcomelabel = gtk.Label()
-		welcomelabel.set_markup("<b>This will let you pick keyboard layouts</b>")
+		welcomelabel.set_markup("<span font_size='x-large'><b>This will let you pick keyboard layouts</b></span>")
 		keyboardpage.add(welcomelabel)
 
 
 
 		timezonepage = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
-		welcomelabel = gtk.Label("Pick a time zone:")
+		welcomelabel = gtk.Label(margin_right=600, margin_top=12, label="Pick a time zone:")
 		timezonepage.add(welcomelabel)
 		global zone
-		zone = gtk.ComboBoxText()
+		zone = gtk.ComboBoxText(margin_right=600, margin_left=12, margin_top=12)
 		zone.append_text("US/Pacific")
 		zone.append_text("US/Central")
 		zone.append_text("US/Eastern")
 		zone.append_text("gmt")
 		zone.set_active(0)
 		timezonepage.add(zone)
-		namelabel = gtk.Label("Enter a hostname:")
+		namelabel = gtk.Label(margin_right=600, margin_top=24, label="Enter a hostname:")
 		timezonepage.add(namelabel)
 		global hostname
-		hostname = gtk.Entry()
-		hostname.set_text("arch")
+		hostname = gtk.Entry(margin_right=600, margin_left=12, margin_top=12)
+		hostname.set_placeholder_text("arch")
 		timezonepage.add(hostname)
 
 		
@@ -237,12 +236,12 @@ class installer(gtk.Window):
 		softwarebook.append_page(educationtab, education)
 		softwarebook.append_page(utilitiestab, utilites)
 		
-		
+
 
 
 		summarypage = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
 		welcomelabel = gtk.Label()
-		welcomelabel.set_markup("<b>Here's what I'm going to do:</b>\n\nImagine a list of all the commands")
+		welcomelabel.set_markup("<span font_size='x-large'><b>Summary:</b></span>")
 		summarypage.add(welcomelabel)
 		
 	
@@ -288,17 +287,14 @@ class installer(gtk.Window):
 		drives = os.listdir("/dev")
 		for drive in drives:
 			if drives[drives.index(drive)][0]=="s" and drives[drives.index(drive)][1]=="d":
-				print drive
 				part = "/dev/" + drive
 
 				if runs == 1:
-					print("first run")
 					if firstdrive.get_active():
 							out.write("sudo mkfs.ext4 " + firstdrive.get_label() + "\n")
 							out.write("sudo mount " + firstdrive.get_label() + " /mnt\n")
 					runs = 2
 				else:
-					print parts[part]
 					if parts[part].get_active():
 						out.write("sudo mkfs.ext4 " + part + "\n")
 						out.write("sudo mount " + part + " /mnt\n")
@@ -325,9 +321,12 @@ class installer(gtk.Window):
 		out.write("arch-chroot /mnt hwclock --systohc --utc\n")
 		
 		out.write("echo ''\necho ''\necho '################################################################################'\necho ''\necho ''\n")
-
-		out.write("arch-chroot /mnt echo " + hostname.get_text().strip()+ " > /etc/hostname\n")
-		#out.write("arch-chroot /mnt echo 'A MAGICAL COMMAND THAT PUTS THE HOSTNAME IN /ETC/HOSTS'\n")
+		
+		if hostname.get_text().strip() == "":
+			out.write("arch-chroot /mnt echo 'arch' > /etc/hostname\n")
+		else:
+			out.write("arch-chroot /mnt echo " + hostname.get_text().strip()+ " > /etc/hostname\n")
+			#out.write("arch-chroot /mnt echo 'A MAGICAL COMMAND THAT PUTS THE HOSTNAME IN /ETC/HOSTS'\n")
 
 		out.write("echo ''\necho ''\necho '################################################################################'\necho ''\necho ''\n")
 		
@@ -396,7 +395,8 @@ class installer(gtk.Window):
 		out.close()
 		#os.system("bash out.sh")
 		print("")
-		print("Now open 'out.sh' in your favorite editor and make sure it's correct before running it. You've been warned")
+		print("Now open 'out.sh' in your favorite editor and make sure it's correct before running it.")
+		print("You've been warned")
 		gtk.main_quit()
 
 	def backbutton(self, button):
