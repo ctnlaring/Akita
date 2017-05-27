@@ -56,12 +56,6 @@ class installer(gtk.Window):
 		welcomelabel = gtk.Label()
 		welcomelabel.set_markup("<span font_size='x-large'><b>   Welcome to Akita</b> - v0.6</span>")
 		topbox.add(welcomelabel)
-		'''langlabel = gtk.Label("Please choose a language for use during the installation (currently english only)")
-		welcomepage.add(langlabel)
-		lang = gtk.ComboBoxText()
-		lang.append_text("English")
-		lang.set_active(0)
-		welcomepage.add(lang)'''
 		label = gtk.Label(margin=8)
 		label.set_markup("<span font_size='large'><b>\n\nThis is pre-release software. It's not ready for use on systems with installations you care about. For now it won't run 'out.sh' automatically. Do so manually only after you've verified it's correct. I'm not responsible if it breaks anything\n\n</b></span>")
 		label.set_line_wrap(True)
@@ -138,7 +132,7 @@ class installer(gtk.Window):
 
 
 		timezonepage = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
-		welcomelabel = gtk.Label(margin_right=600, margin_top=12, label="Pick a time zone:")
+		welcomelabel = gtk.Label(margin_right=600, margin_top=12, label="Pick a  zone:")
 		timezonepage.add(welcomelabel)
 		global zone
 		zone = gtk.ComboBoxText(margin_right=600, margin_left=12, margin_top=12)
@@ -158,21 +152,24 @@ class installer(gtk.Window):
 		
 		
 		userpage = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
-		welcomelabel = gtk.Label(margin_right=450, margin_left=12, margin_top=12, label="Root password:")
+		welcomelabel = gtk.Label(margin=6)
+		welcomelabel.set_markup("<span font_size='x-large'><b>User setup</b></span>")
 		userpage.add(welcomelabel)
+		info = gtk.Label(margin_right=24, margin_left=24, margin_top=12, label="Root password:")
+		userpage.add(info)
 		global rootpassword
-		rootpassword = gtk.Entry(margin_right=450, margin_left=12, margin_top=12)
+		rootpassword = gtk.Entry(margin_right=24, margin_left=24, margin_top=12)
 		userpage.add(rootpassword)
-		info = gtk.Label(margin_right=450, margin_left=12, margin_top=12, label="Username:")
-		userpage.add(info)
+		userbox = gtk.Box()
+		userpage.add(userbox)
 		global username
-		username = gtk.Entry(margin_right=450, margin_left=12, margin_top=12)
-		userpage.add(username)
-		info = gtk.Label(margin_right=450, margin_left=12, margin_top=12, label="Password:")
-		userpage.add(info)
+		username = gtk.Entry(margin_right=12, margin_left=12, margin_top=12)
+		username.set_placeholder_text("username")
+		userbox.pack_start(username, True, True, padding=0)
 		global password
-		password = gtk.Entry(margin_right=450, margin_left=12, margin_top=12)
-		userpage.add(password)
+		password = gtk.Entry(margin_right=12, margin_left=12, margin_top=12)
+		password.set_placeholder_text("password")
+		userbox.pack_end(password, True, True, padding=0)
 		
 		
 		
