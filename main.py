@@ -160,6 +160,8 @@ class installer(gtk.Window):
 		global rootpassword
 		rootpassword = gtk.Entry(margin_right=24, margin_left=24, margin_top=12)
 		userpage.add(rootpassword)
+		info = gtk.Label(margin_right=24, margin_left=24, margin_top=12, label="Administrator:")
+		userpage.add(info)
 		userbox = gtk.Box()
 		userpage.add(userbox)
 		global username
