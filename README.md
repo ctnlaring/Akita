@@ -1,6 +1,8 @@
-[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](YOUR_EMAIL_CODE)
+
 
 # Akita 
+
+[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](http://paypal.me/collinnorwood)
 
 ![Icon](icon.png) 
 
