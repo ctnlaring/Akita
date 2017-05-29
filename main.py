@@ -132,20 +132,23 @@ class installer(gtk.Window):
 
 
 		timezonepage = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
-		welcomelabel = gtk.Label(margin_right=600, margin_top=12, label="Pick a time zone:")
+		welcomelabel = gtk.Label(margin_right=500, margin_top=12, label="Pick a time zone:")
 		timezonepage.add(welcomelabel)
 		global zone
-		zone = gtk.ComboBoxText(margin_right=600, margin_left=12, margin_top=12)
-		zone.append_text("US/Pacific")
-		zone.append_text("US/Central")
-		zone.append_text("US/Eastern")
-		zone.append_text("gmt")
+		zone = gtk.ComboBoxText(margin_right=500, margin_left=12, margin_top=12)
+		excludedirs = set(['posix', 'right'])
+		excludefiles = set(['MET', 'W-SU', 'zone.tab', 'PRC', 'posixrules'])
+		for root, directories, filenames in os.walk('/usr/share/zoneinfo/', topdown=True):
+			directories[:] = [d for d in directories if d not in excludedirs]
+			filenames[:] = [f for f in filenames if f not in excludefiles]
+			for filename in filenames:
+				zone.append_text(os.path.join(root[20:], filename))
 		zone.set_active(0)
 		timezonepage.add(zone)
-		namelabel = gtk.Label(margin_right=600, margin_top=24, label="Enter a hostname:")
+		namelabel = gtk.Label(margin_right=500, margin_top=24, label="Enter a hostname:")
 		timezonepage.add(namelabel)
 		global hostname
-		hostname = gtk.Entry(margin_right=600, margin_left=12, margin_top=12)
+		hostname = gtk.Entry(margin_right=500, margin_left=12, margin_top=12)
 		hostname.set_placeholder_text("arch")
 		timezonepage.add(hostname)
 
