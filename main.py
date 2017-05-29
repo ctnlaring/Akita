@@ -410,8 +410,8 @@ class installer(gtk.Window):
 
 		out.write("echo ''\necho ''\necho '################################################################################'\necho ''\necho ''\n")
 
-		#out.write("arch-chroot /mnt pacman -S liri-*\n")
-		out.write("arch-chroot /mnt pacman -S xorg-server xorg-xinit xorg-server-utils mesa\n")
+		out.write("arch-chroot /mnt pacman -S xorg-apps\n")
+		out.write("arch-chroot /mnt pacman -S xorg-server xorg-xinit mesa\n")
 		out.write("arch-chroot /mnt pacman -S xorg-twm xorg-xclock xterm\n")
 		out.write("arch-chroot /mnt pacman -S lxde\n")
 		out.write("arch-chroot /mnt systemctl enable lxdm\n")
