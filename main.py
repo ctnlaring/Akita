@@ -395,7 +395,7 @@ class installer(gtk.Window):
 			os.system("rm out.sh")
 			os.system("echo 'echo installing' > out.sh")
 		else:
-			out.write("arch-chroot /mnt passwd root " + rootpassword.get_text().strip() + "\n")
+			out.write("arch-chroot /mnt yes " + rootpassword.get_text().strip() + " | passwd root\n")
 
 		out.write("echo ''\necho ''\necho '################################################################################'\necho ''\necho ''\n")
 			
