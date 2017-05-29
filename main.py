@@ -372,6 +372,7 @@ class installer(gtk.Window):
 
 		out.write("arch-chroot /mnt echo LANG=en_US.UTF-8 > /etc/locale.conf\n")
 		out.write("arch-chroot /mnt EXPORT LANG=en_US.UTF-8\n")
+		out.write("arch-chroot /mnt rm /etc/localtime\n")
 		out.write("arch-chroot /mnt ln -s /usr/share/zoneinfo/" + str(zone.get_active_text()) + " /etc/localtime\n")
 		
 		out.write("echo ''\necho ''\necho '################################################################################'\necho ''\necho ''\n")
