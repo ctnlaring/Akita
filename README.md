@@ -2,9 +2,8 @@
 
 # Akita
 
-
-[![GitHub issues](https://img.shields.io/github/issues/collinthegeek/akita.svg)](https://github.com/collinthegeek/akita/issues)
 [![Maintained](https://img.shields.io/maintenance/yes/2017.svg)](https://github.com/collinthegeek/akita/commits/master)
+[![GitHub issues](https://img.shields.io/github/issues/collinthegeek/akita.svg)](https://github.com/collinthegeek/akita/issues)
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](http://paypal.me/collinnorwood)
 
 ![Icon](icon.png) 
