@@ -68,7 +68,7 @@ class installer(gtk.Window):
 			cards = open("/sys/class/net/" + interface + "/operstate", "r")
 			if cards.read().strip() == "up":
 				print("Found a working connection!")
-				print("")
+				print("\n")
 				label = gtk.Label()
 				label.set_markup("You're connected to the internet. Hooray.")
 				break
@@ -349,13 +349,13 @@ class installer(gtk.Window):
 
 				if runs == 1:
 					if firstdrive.get_active():
-							out.write("sudo mkfs.ext4 " + firstdrive.get_label() + "\n")
-							out.write("sudo mount " + firstdrive.get_label() + " /mnt\n")
+							out.write("mkfs.ext4 " + firstdrive.get_label() + "\n")
+							out.write("mount " + firstdrive.get_label() + " /mnt\n")
 					runs = 2
 				else:
 					if parts[part].get_active():
-						out.write("sudo mkfs.ext4 " + part + "\n")
-						out.write("sudo mount " + part + " /mnt\n")
+						out.write("mkfs.ext4 " + part + "\n")
+						out.write("mount " + part + " /mnt\n")
 
 			
 		out.write("echo ''\necho ''\necho '################################################################################'\necho ''\necho ''\n")
@@ -441,20 +441,16 @@ class installer(gtk.Window):
 		
 		for app in internet:
 			if internet[app].get_active() == True:
-				out.write("sudo pacman -S install " + internet[app].get_label() + "\n")
+				out.write("pacman -S install " + internet[app].get_label() + "\n")
 				out.write("echo ''\necho ''\necho '################################################################################'\necho ''\necho ''\n")
-			else:
-				out.write("echo 'skipping " + internet[app].get_label() + "'\n")
-				out.write("echo ''\necho ''\necho '################################################################################'\necho ''\necho ''\n")
-		
-		out.write("echo ''\necho ''\necho '################################################################################'\necho ''\necho ''\n")
+
 
 		out.write("echo 'Done!'")
 			
 		out.close()
 		#os.system("bash out.sh")
-		print("")
-		print("Now open 'out.sh' in your favorite editor and make sure it's correct before running it.")
+		print("\n\n")
+		print("Now open 'out.sh' in your favorite editor and make sure it's correct before running it. AS ROOT!")
 		print("You've been warned")
 		gtk.main_quit()
 
