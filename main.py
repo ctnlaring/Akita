@@ -132,7 +132,7 @@ class installer(gtk.Window):
 
 
 		timezonepage = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
-		welcomelabel = gtk.Label(margin_right=600, margin_top=12, label="Pick a  zone:")
+		welcomelabel = gtk.Label(margin_right=600, margin_top=12, label="Pick a time zone:")
 		timezonepage.add(welcomelabel)
 		global zone
 		zone = gtk.ComboBoxText(margin_right=600, margin_left=12, margin_top=12)
@@ -230,49 +230,49 @@ class installer(gtk.Window):
 		softwarepage.pack_end(softwarebook, True, True, padding=5)
 		
 		mediatab = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
-		tablabel = gtk.Label("Media")
+		tablabel = gtk.Label(margin_top=6, label="Media")
 		mediatab.add(tablabel)
 		for app in media:
 			mediatab.add(media[app])
 		
 		nettab = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
-		tablabel = gtk.Label("Internet")
+		tablabel = gtk.Label(margin_top=6, label="Internet")
 		nettab.add(tablabel)
 		for app in internet:
 			nettab.add(internet[app])
 		
 		productivitytab = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
-		tablabel = gtk.Label("Productivity")
+		tablabel = gtk.Label(margin_top=6, label="Productivity")
 		productivitytab.add(tablabel)
 		for app in productivity:
 			productivitytab.add(productivity[app])
 		
 		gamestab = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
-		tablabel = gtk.Label("Games")
+		tablabel = gtk.Label(margin_top=6, label="Games")
 		gamestab.add(tablabel)
 		for app in games:
 			gamestab.add(games[app])
 		
 		graphicstab = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
-		tablabel = gtk.Label("Graphics")
+		tablabel = gtk.Label(margin_top=6, label="Graphics")
 		graphicstab.add(tablabel)
 		for app in graphics:
 			graphicstab.add(graphics[app])
 		
 		devtoolstab = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
-		tablabel = gtk.Label("Developer Tools")
+		tablabel = gtk.Label(margin_top=6, label="Developer Tools")
 		devtoolstab.add(tablabel)
 		for app in development:
 			devtoolstab.add(development[app])
 		
 		educationtab = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
-		tablabel = gtk.Label("Education")
+		tablabel = gtk.Label(margin_top=6, label="Education")
 		educationtab.add(tablabel)
 		for app in education:
 			educationtab.add(education[app])
 		
 		utilitiestab = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
-		tablabel = gtk.Label("Utilites")
+		tablabel = gtk.Label(margin_top=6, label="Utilites")
 		utilitiestab.add(tablabel)
 		for app in utilities:
 			utilitiestab.add(utilities[app])
