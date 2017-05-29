@@ -64,7 +64,7 @@ class installer(gtk.Window):
 		print("List of network cards: " + str(interfaces))
 		for interface in interfaces:
 			print("Checking network card:")
-			print interface
+			print(interface)
 			cards = open("/sys/class/net/" + interface + "/operstate", "r")
 			if cards.read().strip() == "up":
 				print("Found a working connection!")
@@ -73,7 +73,7 @@ class installer(gtk.Window):
 				label.set_markup("You're connected to the internet. Hooray.")
 				break
 			if cards.read().strip() != "up":
-				print ("it appears to be down :(")
+				print("it appears to be down :(")
 				label = gtk.Label()
 				label.set_markup("<b>You don't appear to be connected to the internet.</b>")
 		welcomepage.add(label)
