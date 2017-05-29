@@ -1,5 +1,3 @@
-
-
 # Akita
 
 [![Maintained](https://img.shields.io/maintenance/yes/2017.svg?style=flat)](https://github.com/collinthegeek/akita/commits/master)
@@ -12,9 +10,7 @@ Installing arch linux is pretty simple. But it's not pretty. This tool will hope
 
 Currently it can generate a script (out.sh) that  will ocasionally work without any modification. Right now you should carefully review out.sh and make sure everything's correct.
 
-
 Install [Liri's material gtk theme](https://www.github.com/lirios/material-gtk-theme) to make it look nice
-
 
 
 
@@ -23,4 +19,3 @@ Install [Liri's material gtk theme](https://www.github.com/lirios/material-gtk-t
 Icon by [Patryk Michalik](https://plus.google.com/u/0/+PatrykMichalik2003)
 
 Copying, modification, and distribution of the entire contents of this repository are permitted in any medium, provided this notice is preserved.
-
