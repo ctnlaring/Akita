@@ -29,15 +29,15 @@ class installer(gtk.Window):
 		global mainbook
 		mainbook = gtk.Notebook()
 		box.pack_start(mainbook, True, True, padding=0)
-		
-		
+
+
 		buttonbox = gtk.Box()
 		box.pack_end(buttonbox, False, False, padding=5)
-		
+
 		button = gtk.Button.new_with_label("Exit")
 		button.connect("clicked", self.quitbutton)
 		buttonbox.pack_start(button, False, False, padding=5)
-
+		
 		button = gtk.Button.new_with_label("Next")
 		button.connect("clicked", self.nextbutton)
 		buttonbox.pack_end(button, False, False, padding=5)
@@ -84,9 +84,9 @@ class installer(gtk.Window):
 		helpbox.pack_start(help, True, False, padding=6)
 		github = gtk.LinkButton("https://github.com/collinthegeek/Akita", label="Github")
 		helpbox.pack_end(github, True, False, padding=6)
-		
-	
-		
+
+
+
 		partitionpage = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
 		welcomelabel = gtk.Label(margin=6)
 		welcomelabel.set_markup("<span font_size='x-large'><b>Choose where to install:</b></span>")
@@ -102,7 +102,7 @@ class installer(gtk.Window):
 		runs = 1
 		global parts
 		parts = {}
-		
+
 		for drive in drives:
 			if drives[drives.index(drive)][0]=="s" and drives[drives.index(drive)][1]=="d":
 				if runs == 1:
@@ -121,13 +121,6 @@ class installer(gtk.Window):
 		global ext4
 		ext4 = gtk.RadioButton(margin=5, group=ext3, label="ext4")
 		schemebox.add(ext4)
-		
-
-
-		keyboardpage = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
-		welcomelabel = gtk.Label(margin=6)
-		welcomelabel.set_markup("<span font_size='x-large'><b>This will let you pick keyboard layouts</b></span>")
-		keyboardpage.add(welcomelabel)
 
 
 
@@ -136,8 +129,8 @@ class installer(gtk.Window):
 		timezonepage.add(welcomelabel)
 		global zone
 		zone = gtk.ComboBoxText(margin_right=500, margin_left=12, margin_top=12)
-		excludedirs = set(['posix', 'right'])
-		excludefiles = set(['MET', 'W-SU', 'zone.tab', 'PRC', 'posixrules'])
+		excludedirs = set(['posix', 'right', 'Etc'])
+		excludefiles = set(['MET', 'W-SU', 'zone.tab', 'PRC', 'posixrules', 'iso3166.tab', 'zone1970.tab'])
 		for root, directories, filenames in os.walk('/usr/share/zoneinfo/', topdown=True):
 			directories[:] = [d for d in directories if d not in excludedirs]
 			filenames[:] = [f for f in filenames if f not in excludefiles]
@@ -152,8 +145,8 @@ class installer(gtk.Window):
 		hostname.set_placeholder_text("arch")
 		timezonepage.add(hostname)
 
-		
-		
+
+
 		userpage = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
 		welcomelabel = gtk.Label(margin=6)
 		welcomelabel.set_markup("<span font_size='x-large'><b>User setup</b></span>")
@@ -175,14 +168,14 @@ class installer(gtk.Window):
 		password = gtk.Entry(margin_right=12, margin_left=12, margin_top=12)
 		password.set_placeholder_text("password")
 		userbox.pack_end(password, True, True, padding=0)
-		
-		
-		
+
+
+
 		global media
 		media = {
 		'vlc': gtk.CheckButton("VLC")
 		}
-		
+
 		global internet
 		internet = {
 		'firefox': gtk.CheckButton("Firefox"),
@@ -191,15 +184,22 @@ class installer(gtk.Window):
 		'pidgin': gtk.CheckButton("Pidgin"),
 		'hangouts': gtk.CheckButton("Hangouts"),
 		'dropbox': gtk.CheckButton("Dropbox"),
-		'drive': gtk.CheckButton("Google Drive")
+		'drive': gtk.CheckButton("Google Drive"),
+		'thunderbird': gtk.CheckButton("Thunderbird"),
+		'polari': gtk.CheckButton("Polari"),
+		'transmission': gtk.CheckButton("Transmission")
 		}
 		global productivity
 		productivity = {
-		'libreoffice': gtk.CheckButton("LibreOffice")
+		'libreoffice': gtk.CheckButton("LibreOffice"),
+		'abiword': gtk.CheckButton("AbiWord"),
+		'lyx': gtk.CheckButton("LyX"),
 		}
 		global games
 		games = {
-
+		'supertuxkart': gtk.CheckButton("SuperTuxKart"),
+		'frozen-bubble': gtk.CheckButton("Fozen Bubble"),
+		'battle-for-wesnoth': gtk.CheckButton("Battle for Wesnoth")
 		}
 		global graphics
 		graphics = {
@@ -212,7 +212,7 @@ class installer(gtk.Window):
 		}
 		global education
 		education = {
-
+		'celestia': gtk.CheckButton("Celestia Space Simulator")
 		}
 		global utilities
 		utilities = {
@@ -231,55 +231,55 @@ class installer(gtk.Window):
 		softwarebook = gtk.Notebook()
 		softwarebook.set_tab_pos(gtk.PositionType.LEFT)
 		softwarepage.pack_end(softwarebook, True, True, padding=5)
-		
+
 		mediatab = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
 		tablabel = gtk.Label(margin_top=6, label="Media")
 		mediatab.add(tablabel)
 		for app in media:
 			mediatab.add(media[app])
-		
+
 		nettab = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
 		tablabel = gtk.Label(margin_top=6, label="Internet")
 		nettab.add(tablabel)
 		for app in internet:
 			nettab.add(internet[app])
-		
+
 		productivitytab = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
 		tablabel = gtk.Label(margin_top=6, label="Productivity")
 		productivitytab.add(tablabel)
 		for app in productivity:
 			productivitytab.add(productivity[app])
-		
+
 		gamestab = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
 		tablabel = gtk.Label(margin_top=6, label="Games")
 		gamestab.add(tablabel)
 		for app in games:
 			gamestab.add(games[app])
-		
+
 		graphicstab = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
 		tablabel = gtk.Label(margin_top=6, label="Graphics")
 		graphicstab.add(tablabel)
 		for app in graphics:
 			graphicstab.add(graphics[app])
-		
+
 		devtoolstab = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
 		tablabel = gtk.Label(margin_top=6, label="Developer Tools")
 		devtoolstab.add(tablabel)
 		for app in development:
 			devtoolstab.add(development[app])
-		
+
 		educationtab = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
 		tablabel = gtk.Label(margin_top=6, label="Education")
 		educationtab.add(tablabel)
 		for app in education:
 			educationtab.add(education[app])
-		
+
 		utilitiestab = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
 		tablabel = gtk.Label(margin_top=6, label="Utilites")
 		utilitiestab.add(tablabel)
 		for app in utilities:
 			utilitiestab.add(utilities[app])
-		
+
 		media = gtk.Label("Media")
 		net = gtk.Label("Internet")
 		productivity = gtk.Label("Productivity")
@@ -296,7 +296,6 @@ class installer(gtk.Window):
 		softwarebook.append_page(devtoolstab, devtools)
 		softwarebook.append_page(educationtab, education)
 		softwarebook.append_page(utilitiestab, utilites)
-		
 
 
 
@@ -304,8 +303,8 @@ class installer(gtk.Window):
 		welcomelabel = gtk.Label(margin=6)
 		welcomelabel.set_markup("<span font_size='x-large'><b>Summary:</b></span>")
 		summarypage.add(welcomelabel)
-		
-	
+
+
 
 		finalpage = gtk.Box(orientation=gtk.Orientation.VERTICAL, spacing=6)
 		welcomelabel = gtk.Label()
@@ -322,7 +321,6 @@ class installer(gtk.Window):
 		#Tabs
 		welcome = gtk.Label("Welcome")
 		disks = gtk.Label("Disks")
-		keyboard = gtk.Label("Keyboard layout")
 		timezone = gtk.Label("Time Zone")
 		users = gtk.Label("Users")
 		software = gtk.Label("Software")
@@ -330,7 +328,6 @@ class installer(gtk.Window):
 		finish = gtk.Label("Finish")
 		mainbook.append_page(welcomepage, welcome)
 		mainbook.append_page(partitionpage, disks)
-		mainbook.append_page(keyboardpage, keyboard)
 		mainbook.append_page(timezonepage, timezone)
 		mainbook.append_page(userpage, users)
 		mainbook.append_page(softwarepage, software)
@@ -340,7 +337,7 @@ class installer(gtk.Window):
 
 	def nextbutton(self, button):
 		mainbook.next_page()
-		
+
 	def write(self, button):
 		print("generating install script")
 		out = open("out.sh", "a");
@@ -360,7 +357,7 @@ class installer(gtk.Window):
 						out.write("mkfs.ext4 " + part + "\n")
 						out.write("mount " + part + " /mnt\n")
 
-			
+
 		out.write("echo ''\necho ''\necho '################################################################################'\necho ''\necho ''\n")
 
 		out.write("pacstrap -i /mnt base base-devel\n")
@@ -370,20 +367,20 @@ class installer(gtk.Window):
 		out.write("genfstab -U -p /mnt >> /mnt/etc/fstab\n")
 		out.write("arch-chroot /mnt echo 'en_US.UTF-8 UTF-8' > /etc/locale.gen\n")
 		out.write("arch-chroot /mnt locale-gen\n")
-		
+
 		out.write("echo ''\necho ''\necho '################################################################################'\necho ''\necho ''\n")
 
 		out.write("arch-chroot /mnt echo LANG=en_US.UTF-8 > /etc/locale.conf\n")
 		out.write("arch-chroot /mnt EXPORT LANG=en_US.UTF-8\n")
 		out.write("arch-chroot /mnt rm /etc/localtime\n")
 		out.write("arch-chroot /mnt ln -s /usr/share/zoneinfo/" + str(zone.get_active_text()) + " /etc/localtime\n")
-		
+
 		out.write("echo ''\necho ''\necho '################################################################################'\necho ''\necho ''\n")
 
 		out.write("arch-chroot /mnt hwclock --systohc --utc\n")
-		
+
 		out.write("echo ''\necho ''\necho '################################################################################'\necho ''\necho ''\n")
-		
+
 		if hostname.get_text().strip() == "":
 			out.write("arch-chroot /mnt echo 'arch' > /etc/hostname\n")
 		else:
@@ -391,7 +388,7 @@ class installer(gtk.Window):
 			#out.write("arch-chroot /mnt echo 'A MAGICAL COMMAND THAT PUTS THE HOSTNAME IN /ETC/HOSTS'\n")
 
 		out.write("echo ''\necho ''\necho '################################################################################'\necho ''\necho ''\n")
-		
+
 		#Make sure a root password was entered
 		if rootpassword.get_text().strip() == "":
 			raise ValueError("You didn't enter a root password")
@@ -401,13 +398,13 @@ class installer(gtk.Window):
 			out.write("arch-chroot /mnt yes " + rootpassword.get_text().strip() + " | passwd root\n")
 
 		out.write("echo ''\necho ''\necho '################################################################################'\necho ''\necho ''\n")
-			
+
 		out.write("arch-chroot /mnt pacman -S grub\n")
-		
+
 		out.write("echo ''\necho ''\necho '################################################################################'\necho ''\necho ''\n")
 
 		out.write("arch-chroot /mnt grub-install --target=i386-pc --recheck /dev/sda\n")
-		
+
 		out.write("echo ''\necho ''\necho '################################################################################'\necho ''\necho ''\n")
 
 		out.write("arch-chroot /mnt grub-mkconfig -o /boot/grub/grub.cfg\n")
@@ -419,16 +416,16 @@ class installer(gtk.Window):
 		out.write("arch-chroot /mnt pacman -S xorg-twm xorg-xclock xterm\n")
 		out.write("arch-chroot /mnt pacman -S lxde\n")
 		out.write("arch-chroot /mnt systemctl enable lxdm\n")
-				
+
 		out.write("echo ''\necho ''\necho '################################################################################'\necho ''\necho ''\n")
-				
+
 		if username.get_text().strip() == "":
 			raise ValueError("You didn't enter a username")
 			os.system("rm out.sh")
 			os.system("echo 'echo installing' > out.sh")
 		else:
 			out.write("arch-chroot /mnt useradd -m -G wheel -s /bin/bash " + username.get_text().strip()+ "\n")
-		
+
 		out.write("echo ''\necho ''\necho '################################################################################'\necho ''\necho ''\n")
 
 		if password.get_text().strip() == "":
@@ -437,11 +434,11 @@ class installer(gtk.Window):
 			os.system("echo 'echo installing' > out.sh")
 		else:
 			out.write("arch-chroot /mnt passwd " + username.get_text().strip()+  " " + password.get_text().strip()+ "\n")
-		
+
 		out.write("echo ''\necho ''\necho '################################################################################'\necho ''\necho ''\n")
-		
+
 		#out.write("arch-chroot /mnt visudo things\n")
-		
+
 		for app in internet:
 			if internet[app].get_active() == True:
 				out.write("pacman -S install " + internet[app].get_label() + "\n")
@@ -449,7 +446,7 @@ class installer(gtk.Window):
 
 
 		out.write("echo 'Done!'")
-			
+
 		out.close()
 		#os.system("bash out.sh")
 		print("\n\n")
@@ -459,7 +456,7 @@ class installer(gtk.Window):
 
 	def backbutton(self, button):
 		mainbook.prev_page()
-		
+
 	def quitbutton(self, button):
 		gtk.main_quit()
 
