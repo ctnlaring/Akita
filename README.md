@@ -2,8 +2,8 @@
 
 [![Maintained](https://img.shields.io/maintenance/yes/2017.svg?style=flat)](https://github.com/collinthegeek/akita/commits/master)
 [![GitHub issues](https://img.shields.io/github/issues/collinthegeek/akita.svg?style=flat)](https://github.com/collinthegeek/akita/issues)
-[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg?style=flat)](http://paypal.me/collinnorwood)
 [![License](https://img.shields.io/badge/License-WTFPL-orange.svg?style-flat)](http://www.wtfpl.net/txt/copying/)
+[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg?style=flat)](http://paypal.me/collinnorwood)
 
 ![Icon](icon.png) 
 
