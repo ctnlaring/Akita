@@ -2,7 +2,7 @@
 # -*- Mode: Python; coding: utf-8; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*- 
 #
 # Akita
-# Copyright (C) 2017 Collin Norwood <cnorwood7641@stu.neisd.net>
+# Copyright (C) 2017 Collin Norwood <cnorwood7641@gmail.com>
 
 import gi, os
 gi.require_version('Gtk', '3.0')
