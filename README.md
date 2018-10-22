@@ -5,7 +5,7 @@
 [![License](https://img.shields.io/badge/License-WTFPL-orange.svg?style-flat)](http://www.wtfpl.net/txt/copying/)
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg?style=flat)](http://paypal.me/collinnorwood)
 
-![Icon](icon.png) 
+![Icon](data/icon.png) 
 
 Installing arch linux is pretty simple. But it's not pretty. This tool will hopefully make it prettier than existing solutions (calamares, arch-anywhere, cnchi, etc.) While also adding some helpful features like page to download common software. (It's also much lighter)
 
