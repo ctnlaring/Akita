@@ -2,7 +2,7 @@
 
 [![Maintained](https://img.shields.io/badge/Maintained-Occasionally-lightgray.svg?style-flat?style=flat)](https://github.com/collinthegeek/akita/commits/master)
 [![GitHub issues](https://img.shields.io/github/issues/collinthegeek/akita.svg?style=flat)](https://github.com/collinthegeek/akita/issues)
-[![License](https://img.shields.io/badge/License-WTFPL-orange.svg?style-flat)](http://www.wtfpl.net/txt/copying/)
+[![License](https://img.shields.io/badge/License-GPL%20V3-orange.svg?style-flat)](https://www.gnu.org/licenses/gpl-3.0.en.html)
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg?style=flat)](http://paypal.me/collinnorwood)
 
 ![Icon](data/icon.png) 
