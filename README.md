@@ -15,7 +15,7 @@ Install [Liri's material gtk theme](https://www.github.com/lirios/material-gtk-t
 
 
 
-##### Copyright (C) 2017 Collin Norwood
+##### Copyright (C) 2019 Collin Norwood
 
 Icon by [Patryk Michalik](https://plus.google.com/u/0/+PatrykMichalik2003)
 
